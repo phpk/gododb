@@ -127,17 +127,7 @@ module.exports = class extends Util {
     }
 
   }
-  /**
-   * 清除状态
-   * @param {number} adminId 
-   */
-  async clearSatus(adminId) {
-    await this.ses('loginNum', null);
-    await this.ses('adminId', null);
-    await this.ses('salt', null);
-    await this.ses('statusTime', null);
-
-  }
+  
   /**
    * 记录操作日志
    * @param {string} msg 

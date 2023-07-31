@@ -1,7 +1,6 @@
-const Base = require('./base.js');
 
-module.exports = class extends Base {
+module.exports = class extends think.Controller {
   indexAction() {
-    return this.display();
+    return this.redirect('/static/login.html')
   }
 };

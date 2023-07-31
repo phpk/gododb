@@ -79,10 +79,17 @@
 					shade: 0.01
 				});
 				$.post(api.apiUrl + 'login/loginIn', field, res => {
-					layer.msg('登录成功', { icon: 1 })
-					layer.close(loadIndex);
-
-					location.href = './index.html'
+					if(res.code == 0) {
+						layer.msg('登录成功', { icon: 1 })
+						layer.close(loadIndex);
+						console.log(res)
+						api.setToken(res)
+						//location.href = './index.html'
+					}else{
+						layer.msg(res.message, {icon:2})
+						changeImg();
+					}
+					
 				})
 			})
 

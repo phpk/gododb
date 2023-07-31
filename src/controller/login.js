@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
  * @class 
  * @apiDefine login 用户登录
  */
-const Util = require('./util.js')
+const Util = require('./util.js');
 module.exports = class extends Util {   
     async captchaAction() {
 		let captchaData = await this.service('login').getCaptcha();
@@ -15,11 +15,13 @@ module.exports = class extends Util {
 	}
     async chkCapcha(code) {
         let captchaId = await this.ses('captchaId');
+        //console.log(captchaId)
+        console.log(code)
         //清空
-        await this.ses('captchaId', null);
         if (captchaId != code) {
             return false;
         }
+        await this.ses('captchaId', null);
         return true;
     }
     async loginInAction() {
@@ -97,5 +99,8 @@ module.exports = class extends Util {
         await this.model('adminlog').add(logData);
         return this.success(token);
     }
-    
+    async loginOutAction() {
+        await this.clearSatus();
+        return this.success()
+    }
 }

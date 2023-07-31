@@ -28,7 +28,7 @@
                     <a href="javascript:;"><i class="layui-icon layui-icon-set"
                             style="font-size: 20px; color: #ffffff;"></i></a>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="loginOut">
                     <a href="javascript:;"><i class="layui-icon layui-icon-logout"
                             style="font-size: 20px; color: #ffffff;"></i></a>
                 </li>
@@ -62,12 +62,20 @@
         window.onload = function () {
             setIframeHeight(document.getElementById('appframe'));
         };
-        layui.use(['element', 'layer', 'util'], function () {
-            var element = layui.element;
-            var layer = layui.layer;
-            var util = layui.util;
-            var $ = layui.$;
-
+        layui.extend({
+				api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
+		});
+        layui.use(['element', 'layer', 'util', 'api'], function () {
+            let element = layui.element,
+            layer = layui.layer,
+            util = layui.util,
+            $ = layui.$,
+            api = layui.api;
+            $("#loginOut").click(e => {
+                api.get('login/loginOut', res => {
+                    location.href = '/static/login.html'
+                })
+            })
 
         });
     </script>
