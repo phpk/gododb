@@ -7,6 +7,7 @@ specifiers:
   babel-preset-think-node: ^1.0.0
   eslint: ^4.2.0
   eslint-config-think: ^1.0.0
+  json2md: ^2.0.0
   jsonwebtoken: ^9.0.1
   mysql-import: ^5.0.26
   mysql-ssh: ^1.0.6
@@ -31,6 +32,7 @@ specifiers:
 
 dependencies:
   '@koa/cors': 4.0.0
+  json2md: 2.0.0
   jsonwebtoken: 9.0.1
   mysql-import: 5.0.26
   mysql-ssh: 1.0.6
@@ -2977,6 +2979,10 @@ packages:
     dev: false
     optional: true
 
+  /indento/1.1.13:
+    resolution: {integrity: sha512-YZWk3mreBEM7sBPddsiQnW9Z8SGg/gNpFfscJq00HCDS7pxcQWWWMSVKJU7YkTRyDu1Zv2s8zaK8gQWKmCXHlg==}
+    dev: false
+
   /infer-owner/1.0.4:
     resolution: {integrity: sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A==}
     dev: false
@@ -3590,6 +3596,12 @@ packages:
   /json-stable-stringify-without-jsonify/1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
     dev: true
+
+  /json2md/2.0.0:
+    resolution: {integrity: sha512-4PIMtD0zTfQZWcUId1EyHY2BQ2EG/imHWHkGFbXYPlczW8G6wPJA/BRVN3e5v6NPwFUCcoFvUsCeo6rzV2CWww==}
+    dependencies:
+      indento: 1.1.13
+    dev: false
 
   /json5/0.5.1:
     resolution: {integrity: sha512-4xrs1aW+6N5DalkqSVA8fxh458CXvR99WU8WLKmq4v8eWAL86Xo3BVqyd3SkA9wEVjCMqyvvRRkshAdOnBp5rw==}

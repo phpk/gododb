@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const confpath = path.join(think.ROOT_PATH, 'data/db/config.js');
+const confpath = path.join(think.ROOT_PATH, 'data/config.js');
 //const setConf = require(confpath);
 const sysSafe = ['admin', 'admin_auth', 'admin_map', 'admin_oplog', 'admin_viewlog', 'error', 'menu', 'set', 'form', 'crons'];
 module.exports = class extends think.Service {

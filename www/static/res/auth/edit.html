@@ -47,7 +47,7 @@
     <div class="bottom">
         <div class="button-container">
             <input type="hidden" name="id">
-            <button type="submit" class="layui-btn layui-btn-primary layui-btn-sm" lay-submit="" lay-filter="user-save">
+            <button type="submit" class="layui-btn layui-btn-lg layui-btn-warm" lay-submit="" lay-filter="user-save">
                 <i class="layui-icon layui-icon-ok"></i>
                 提交
             </button>
@@ -65,7 +65,7 @@
             , req = _req();
 
            //渲染
-		   _get(layui, 'auth/beforEdit?id=' + req.id, res => {
+		   api.get('auth/beforEdit?id=' + req.id, res => {
                form.val("editform",res);
 			   tree.render({
 			     elem: '#treearea'//绑定元素
@@ -97,7 +97,7 @@
 			}
 			data.rules = treeIds(arr);
             //console.log(data)
-			_post(layui, 'auth/edit', data, res => {
+			api.post('auth/edit', data, res => {
 				//console.log(res)
 				parent.layui.table.reload("role-table");
 				parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页

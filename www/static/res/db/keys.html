@@ -18,8 +18,7 @@
 		    <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>
 		</script>
 
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
 			layui.use(['table', 'form', 'jquery','common'], function() {
@@ -89,7 +88,7 @@
 							name : obj.data.name
 						}
 						console.log(postdata)
-						_post(layui, 'db/delKey',postdata, res => {
+						api.post('db/delKey',postdata, res => {
 							layer.msg('删除成功', {
 								icon: 1,
 								time: 1000

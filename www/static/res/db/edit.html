@@ -36,8 +36,7 @@
         <script type="text/html" id="auto-bar">
 			<input type="checkbox" name="auto" value="{{d.name}}" lay-skin='switch' lay-filter="auto" {{ d.extra == 'auto_increment' ? 'checked' : '' }} />
 		</script>
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
 			layui.use([
@@ -208,7 +207,7 @@
 						type : 'isnull'
 					};
 					//console.log(postData)
-					_post(layui, 'db/setStatus', postData, res => {
+					api.post('db/setStatus', postData, res => {
 						layer.msg('更新成功', {
 								icon: 1,
 								time: 1000
@@ -229,7 +228,7 @@
 						type : 'auto'
 					};
 					//console.log(postData)
-					_post(layui, 'db/setStatus', postData, res => {
+					api.post('db/setStatus', postData, res => {
 						layer.msg('更新成功', {
 								icon: 1,
 								time: 1000
@@ -287,7 +286,7 @@
 						value: obj.value,
 						old
 					}
-					_post(layui, 'db/changeFieldName', update, res => {
+					api.post('db/changeFieldName', update, res => {
 						//console.log(res)
                         layer.msg('更新成功', {
 								icon: 1,
@@ -325,7 +324,7 @@
 						let names = list.map(d => {
 							return "`" + d.name + "`";
 						});
-						_post(layui, 'db/setKey', {
+						api.post('db/setKey', {
 							names : names.join(','),
 							table : req.table,
 							type : id
@@ -363,7 +362,7 @@
 						title: '提示'
 					}, function (index) {
 						layer.close(index);
-						_post(layui, 'db/delField', {
+						api.post('db/delField', {
 							table: req.table,
                             field : obj.data.name
 						}, res => {
@@ -396,7 +395,7 @@
                         postData.sortField = obj.cache[1].name;
                     }
                     console.log(postData)
-                    _post(layui, 'db/sortField',postData, res => {
+                    api.post('db/sortField',postData, res => {
                         console.log(res)
                         layer.msg('更新成功', {
 								icon: 1,

@@ -63,7 +63,7 @@
 
             let MODULE_PATH = "./";
             if (req.table) {
-                _get(layui, 'db/getSql?table=' + req.table, res => {
+                api.get('db/getSql?table=' + req.table, res => {
                     console.log(res)
                     $('#code').val(res);
                 })
@@ -90,7 +90,7 @@
             })
             $('#run').click(res => {
                 let code = $('#code').val();
-                _post(layui, 'db/runSql', {code}, res => {
+                api.post('db/runSql', {code}, res => {
                     //console.log(res)
                     if(res instanceof Array && res.length > 0) {
                         window.renderTable(res)

@@ -16,8 +16,7 @@
 		<script type="text/html" id="safe-bar">
 		    <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>
 		</script>
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
 			layui.use(['table', 'form', 'jquery','common'], function() {
@@ -84,7 +83,7 @@
 				window.remove = function(obj){
 		            layer.confirm('确定要删除该保护', {icon: 3, title:'提示'}, function(index){
 		                layer.close(index);
-		                _post(layui, 'db/safeDel',{id : obj.data.id}, res => {
+		                api.post('db/safeDel',{id : obj.data.id}, res => {
 							layer.msg('删除成功',{icon:1,time:1000},() => {
 								obj.del();
 							});

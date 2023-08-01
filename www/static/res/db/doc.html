@@ -76,22 +76,29 @@
         </div>
         
         <script src="/static/js/layui.js"></script>
-        <script src="/static/docs/js/marked.min.js"></script>
-        <script src="/static/docs/js/html2pdf.js"></script>
+        <script src="/static/js/doc/marked.min.js"></script>
+        <script src="/static/js/doc/html2pdf.js"></script>
 
         <script>
-            layui.use([
-                'table', 'jquery', 'common', 'FileSaver', 'wordexport','layer'
-            ], function () {
+            layui.config({
+				base: "/static/js/"
+			}).extend({
+				api: 'api',
+                FileSaver : 'FileSaver',
+                wordexport : 'wordexport'
+			}).use([
+				'api', 'FileSaver', 'wordexport'
+			], function () {
                 let table = layui.table;
                 let $ = layui.jquery;
+                let api = layui.api;
                 let common = layui.common,
                     FileSaver = layui.FileSaver,
                     wordexport = layui.wordexport,
                     layer = layui.layer;
 
                 let MODULE_PATH = "./";
-                _get(layui, 'db/doc', res => {
+                api.get('db/doc', res => {
                     //console.log(res)
                     $('#content').html(marked.parse(res));
                     $("#downpdf").click(function (e) {

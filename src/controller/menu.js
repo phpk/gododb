@@ -24,9 +24,8 @@ module.exports = class extends Base {
     */
 
     async listAction() {
-        let menus = await this.cache('menus_' + this.adminId);
-        //console.log(menus);
-        return this.success(menus)
+        let authData = await this.model('menu').tree();
+        return this.success(authData)
     }
     /**
      * 
@@ -81,11 +80,6 @@ module.exports = class extends Base {
         } else {
             data.pname = pname;
         }
-        if (id > 0) {
-            await this.adminViewLog('编辑菜单');
-        } else {
-            await this.adminViewLog('添加菜单');
-        }
 
         return this.success(data)
     }
@@ -115,9 +109,9 @@ module.exports = class extends Base {
             return this.fail("编辑的菜单不存在");
         
         let rt = await this.model('menu').where({ id }).update(post)
-        await this.model('menu').cacheData(this.adminId);
+        let routeData = await this.model('menu').cacheDataByUid(this.adminId);
         await this.adminOpLog('编辑菜单');
-        return this.success(rt)
+        return this.success(routeData)
     }
     async editDataAction() {
         let {id, field, value} = this.post();

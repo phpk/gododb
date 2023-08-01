@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
+    "json2md": "^2.0.0",
     "jsonwebtoken": "^9.0.1",
     "mysql-import": "^5.0.26",
     "mysql-ssh": "^1.0.6",

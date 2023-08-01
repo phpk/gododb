@@ -29,8 +29,7 @@
 		<script type="text/html" id="role-enable">
 			<input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="role-enable"  {{ d.status== 0 ? 'checked' : '' }} />
 		</script>
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
 		    layui.use(['table','form','jquery'],function () {
@@ -106,7 +105,7 @@
 						id : data.value,
 						status : v
 					};
-					_post(layui, 'auth/enable', postData, res => {
+					api.post('auth/enable', postData, res => {
 						//console.log(res)
 					},err => {
 						$(data.elem).prop('checked', false);
@@ -142,7 +141,7 @@
 		        window.remove = function(obj){
 		            layer.confirm('确定要删除该角色', {icon: 3, title:'提示'}, function(index){
 		                layer.close(index);
-		                _post(layui, 'auth/del',{id : obj.data.id}, res => {
+		                api.post('auth/del',{id : obj.data.id}, res => {
 							layer.msg('删除成功',{icon:1,time:1000},() => {
 								obj.del();
 							});

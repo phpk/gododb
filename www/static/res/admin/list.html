@@ -64,8 +64,7 @@
 		<script type="text/html" id="user-loginTime">
 			{{layui.util.toDateString(d.login_time*1000, 'yyyy-MM-dd HH:mm:ss')}}
 		</script>
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
 			layui.use(['table', 'form', 'jquery','common'], function() {
@@ -199,7 +198,7 @@
 						id : data.value,
 						status : v
 					};
-					_post(layui, 'admin/enable', postData, res => {
+					api.post('admin/enable', postData, res => {
 						//console.log(res)
 					},err => {
 						$(data.elem).prop('checked', false);
@@ -235,7 +234,7 @@
 				window.remove = function(obj){
 		            layer.confirm('确定要删除该用户', {icon: 3, title:'提示'}, function(index){
 		                layer.close(index);
-		                _post(layui, 'admin/del',{admin_id : obj.data.admin_id}, res => {
+		                api.post('admin/del',{admin_id : obj.data.admin_id}, res => {
 							layer.msg('删除成功',{icon:1,time:1000},() => {
 								obj.del();
 							});

@@ -47,7 +47,7 @@
     </div>
     <div class="bottom">
         <div class="button-container">
-            <button type="submit" class="layui-btn layui-btn-primary layui-btn-sm" lay-submit="" lay-filter="user-save">
+            <button type="submit" class="layui-btn layui-btn-lg layui-btn-warm" lay-submit="" lay-filter="user-save">
                 <i class="layui-icon layui-icon-ok"></i>
                 提交
             </button>
@@ -75,7 +75,7 @@
         form.on('submit(user-save)', function (data) {
 			data = data.field;
             console.log(data)
-			_post(layui, 'db/createTable', data, res => {
+			api.post('db/createTable', data, res => {
 				//console.log(res)
 				parent.layui.table.reload("db-table");
 				parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页

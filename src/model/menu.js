@@ -27,7 +27,7 @@ module.exports = class extends think.Model {
             if (el.href) {
                 el.href = '/static/res/' + el.href;
             }
-
+            el.name = el.title;
             el.route && perms.push(el.route);
         });
         //console.log(perms)
@@ -36,6 +36,7 @@ module.exports = class extends think.Model {
             let child = [];
             data.forEach((value) => {
                 //前台是否显示
+                
                 if (value.pid == id && value.ifshow < 1) {
 
                     child.push(value);

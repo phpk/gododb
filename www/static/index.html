@@ -22,7 +22,7 @@
             </ul>
             <script id="menutpl" type="text/html">
                 <li class="layui-nav-item layui-this" >
-                    <a href="javascript:;" url="./res/index/welcome.html">首页</a>
+                    <a href="javascript:;" id="homehref">首页</a>
                 </li>
                 {{#  layui.each(d, function(index, item){ }}
                 <li class="layui-nav-item">
@@ -54,7 +54,7 @@
         <div class="layui-body" style="width: 100%;left:0;">
             <!-- 内容主体区域 -->
             <iframe style="width:100%;height:100%;" scrolling="auto" frameborder="0" id="appframe"
-                        src="./res/index/welcome.html"></iframe>
+                        src=""></iframe>
         </div>
         <div class="layui-footer" style="width: 100%;left:0;text-align: center;">
             <!-- 底部固定区域 -->
@@ -76,9 +76,6 @@
         window.onload = function () {
             setIframeHeight(document.getElementById('appframe'));
         };
-        function setIframeUrl(url) {
-            document.getElementById('appframe').src = url;
-        }
         layui.extend({
 				api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
 		}).use(['api'], function () {
@@ -100,11 +97,31 @@
                 let url = $(e.target).attr('url');
                 //console.log(url)
                 if(url){
-                    $('#appframe').attr("src", url)
-                }
-                
-            })
+                    $('#appframe').attr("src", url);
+                    location.hash = '#'+url;
+                    $("#menuarea li").removeClass("layui-this")
+                    console.log(e.target.parentNode.nodeName)
+                    if(e.target.parentNode.nodeName === "DD") {
+                        //console.log($(e.target).parent().parent())
+                        $(e.target).parent().parent().parent().addClass("layui-this")
+                    }else{
+                        $(e.target).addClass("layui-this")
+                    }
 
+                }
+            })
+            function initFrame() {
+                let homeUrl = "/static/res/index/welcome.html";
+                $("#homehref").attr('url', homeUrl);
+                let hash = location.hash;
+                if(hash) {
+                    $('#appframe').attr("src", hash.replace("#",""))
+                }else{
+                    $('#appframe').attr("src", homeUrl)
+                }
+            }
+            initFrame();
+            console.log(location.hash)
             $("#loginOut").click(e => {
                 layer.confirm('确认要退出？', {icon: 3}, function(){
                     api.get('login/loginOut', res => {

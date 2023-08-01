@@ -67,7 +67,7 @@
 
             }
             if (req.id) {
-                _get(layui, 'menu/sql?id=' + req.id, res => {
+                api.get('menu/sql?id=' + req.id, res => {
                     console.log(res)
                     $('#code').val(prettyFormat(res));
                     $('#copy').on('click', e => {

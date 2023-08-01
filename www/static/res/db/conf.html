@@ -38,14 +38,20 @@
 		<script type="text/html" id="conf-loginTime">
 			{{layui.util.toDateString(d.login_time*1000, 'yyyy-MM-dd HH:mm:ss')}}
 		</script>
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
-			layui.use(['table', 'form', 'jquery','common'], function() {
+			layui.config({
+				base: "/static/js/"
+			}).extend({
+				api: 'api'
+			}).use([
+				'api'
+			],function() {
 				let table = layui.table;
 				let form = layui.form;
-				let $ = layui.jquery;
+				let $ = layui.$;
+				let api = layui.api;
 				let common = layui.common;
 
 				let MODULE_PATH = "./";
@@ -87,15 +93,15 @@
 							title: '操作',
 							toolbar: '#conf-bar',
 							align: 'center',
-							width: 180
+							width: 220
 						}
 					]
 				]
 
 				table.render({
 					elem: '#conf-table',
-					url: apiUrl + 'db/confList',
-					headers: getHeader(),
+					url: api.apiUrl + 'db/confList',
+					headers: api.getHeader(),
 					parseData: function(res) {
 						//console.log(res)
 						return {
@@ -162,7 +168,7 @@
 					let postData = {
 						id: data.value
 					};
-					_post(layui, 'db/confChange', postData, res => {
+					api.post('db/confChange', postData, res => {
 						//console.log(res)
 						//window.refresh();
 						table.reload('conf-table');
@@ -189,7 +195,7 @@
 								layer.msg('数据库名不能为空');
 								return false;
 							}
-							_post(layui, 'db/creatDatabase', {
+							api.post('db/creatDatabase', {
 								name: basename
 							}, res => {
 
@@ -240,7 +246,7 @@
 						title: '提示'
 					}, function (index) {
 						layer.close(index);
-						_post(layui, 'db/confDel', {
+						api.post('db/confDel', {
 							id: obj.data.id
 						}, res => {
 							layer.msg('删除成功', {

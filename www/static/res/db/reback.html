@@ -23,8 +23,7 @@
 		<script type="text/html" id="db-loginTime">
 			{{layui.util.toDateString(d.login_time*1000, 'yyyy-MM-dd HH:mm:ss')}}
 		</script>
-		<script src="../../config/config.js"></script>
-		<script src="../../component/layui/layui.js"></script>
+		
 		<script src="/static/js/layui.js"></script>
 		<script>
 			layui.use(['table', 'form', 'jquery','common'], function() {
@@ -88,7 +87,7 @@
 				window.back = function(obj) {
 					layer.confirm('确定要还原?', {icon: 3, title:'提示'}, function(index){
 		                layer.close(index);
-		                _post(layui, 'db/reback',{file : obj.data.name}, res => {
+		                api.post('db/reback',{file : obj.data.name}, res => {
 							layer.msg('还原成功',{icon:1,time:1000});
 						}, err => {
 							layer.msg('还原失败',{icon:2,time:1000});
@@ -98,7 +97,7 @@
 				window.remove = function(obj){
 		            layer.confirm('确定要删除?', {icon: 3, title:'提示'}, function(index){
 		                layer.close(index);
-		                _post(layui, 'db/delback',{file : obj.data.name}, res => {
+		                api.post('db/delback',{file : obj.data.name}, res => {
 							layer.msg('删除成功',{icon:1,time:1000},() => {
 								obj.del();
 							});
