@@ -5,13 +5,7 @@
     <meta charset="utf-8">
     <title>sql查询</title>
     <link rel="stylesheet" href="/static/css/layui.css" />
-    <!-- Latest compiled and minified CSS -->
-    <script src="../../component/ui/table/jquery.min.js"></script>
-    <script src="../../component/ui/table/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../component/ui/table/bootstrap.min.css">
-    <link rel="stylesheet" href="../../component/ui/table/bootstrap-table.min.css">
-    <script src="../../component/ui/table/bootstrap-table.min.js"></script>
-    <script src="../../component/ui/table/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="/static/css/common.css" />
     <style>
         .layui-textarea {
             height: 220px;
@@ -19,7 +13,7 @@
     </style>
 </head>
 
-<body class="pear-container">
+<body class="container">
     <div class="layui-card">
         <div class="layui-card-body">
             <div class="layui-form-item layui-form-text">
@@ -44,22 +38,25 @@
     
     <div class="layui-card">
         <div class="layui-card-body" id="result">
-            <table id="table"></table>
+            <table class="layui-hide" id="table-data"></table>
         </div>
     </div>
 
 
-    <script src="../../config/config.js"></script>
-    <script src="../../component/layui/layui.js"></script>
     <script src="/static/js/layui.js"></script>
-    <script src="../../component/ui/sql.js"></script>
+    <script src="/static/js/sql.js"></script>
     <script>
+        layui.extend({
+            api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
+        });
         layui.use([
-            'common', 'layer'
+            'api'
         ], function () {
-            let common = layui.common;
+            let table = layui.table;
             let layer = layui.layer;
-            let req = _req();
+            let api = layui.api;
+            let $ = layui.$;
+            let req = api.req();
 
             let MODULE_PATH = "./";
             if (req.table) {
@@ -110,33 +107,19 @@
                 for(let p in rows) {
                     cols.push({
                         title: p,
-                        field : p
+                        field : p,
+                        align: 'center'
                     });
                 }
-                // res.forEach(d => {
-                //     let c = [];
-                //     for(let r in d){
-                //         c.push(d[r])
-                //     }
-                //     rt.push(c)
-                // })
-                // console.log(rt)
-                // console.log(cols)
+                //console.log(cols)
                 //console.log(res)
-                $('#table').bootstrapTable({
-                    columns: cols,
-                    data: res,
-                    pagination: true,
-                    showToggle : true
+                table.render({
+                    elem: '#table-data',
+                    cols: [cols],
+                    data : res,
+                    page: true
                 })
-  
-                //$('#sql-table').bootstrapTable({data})
-                // $('#sql-table').html('');
-                // $('#sql-table').DataTable({
-                //     data: rt,
-                //     columns: cols,
-                //     autoWidth : true
-                // } );
+                
             }
         })
     </script>

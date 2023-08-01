@@ -22,7 +22,6 @@ module.exports = class extends Base {
             .page(page, limit)
             .select();
         let count = await think.model('admin_auth').count();
-        await this.adminViewLog('角色列表');
         return this.success({ list, count })
     }
     /**
@@ -57,7 +56,6 @@ module.exports = class extends Base {
      */
     async addTreeAction() {
         let menus = await this.model('menu').tree();
-        await this.adminViewLog('添加角色');
         return this.success(menus);
     }
     /**
@@ -78,7 +76,6 @@ module.exports = class extends Base {
         if (think.isEmpty(data)) return this.fail('the data none')
         //console.log(data.rules.split(','))
         data.menus = await this.model('menu').tree()
-        await this.adminViewLog('编辑角色');
         return this.success(data)
     }
     /**

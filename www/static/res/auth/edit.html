@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="/static/css/layui.css" />
+    <link rel="stylesheet" href="/static/css/common.css" />
 
 </head>
 <body>
@@ -57,12 +58,16 @@
 
 <script src="/static/js/layui.js"></script>
 <script>
-    layui.use(['form','layer','tree'], function () {
+    layui.extend({
+            api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
+    });
+    layui.use(['api'], function () {
+        let api = layui.api;
         let form = layui.form
             , layer = layui.layer
 			, $ = layui.$
 			, tree = layui.tree
-            , req = _req();
+            , req = api.req();
 
            //渲染
 		   api.get('auth/beforEdit?id=' + req.id, res => {

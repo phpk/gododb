@@ -27,7 +27,6 @@ module.exports = class extends Base {
             .page(page, limit)
             .select();
         let count = await think.model('admin').where(wsql).count();
-        await this.adminViewLog('管理员列表');
         return this.success({ list, count })
     }
     /**
@@ -46,7 +45,6 @@ module.exports = class extends Base {
         authList.forEach(e => {
             e.title = e.name
         })
-        await this.adminViewLog('添加管理员');
         return this.success({ authList })
     }
     /**
@@ -123,7 +121,6 @@ module.exports = class extends Base {
             e.title = e.name
         });
         data.authList = authList;
-        await this.adminViewLog('编辑管理员');
         return this.success(data)
     }
     /**

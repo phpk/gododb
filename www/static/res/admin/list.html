@@ -4,8 +4,9 @@
 		<meta charset="utf-8">
 		<title>管理员管理</title>
 		<link rel="stylesheet" href="/static/css/layui.css" />
+		<link rel="stylesheet" href="/static/css/common.css" />
 	</head>
-	<body class="pear-container">
+	<body class="container">
 		<div class="layui-card">
 			<div class="layui-card-body">
 				<form class="layui-form" action="">
@@ -67,7 +68,11 @@
 		
 		<script src="/static/js/layui.js"></script>
 		<script>
-			layui.use(['table', 'form', 'jquery','common'], function() {
+			layui.extend({
+					api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
+				});
+			layui.use(['api'], function() {
+				let api = layui.api;
 				let table = layui.table;
 				let form = layui.form;
 				let $ = layui.jquery;
@@ -126,8 +131,8 @@
 
 				table.render({
 					elem: '#user-table',
-					url: apiUrl + 'admin/list',
-					headers : getHeader(),
+					url: api.apiUrl + 'admin/list',
+					headers : api.getHeader(),
 					parseData: function(res) {
 						//console.log(res)
 						return {

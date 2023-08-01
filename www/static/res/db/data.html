@@ -1,62 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>数据管理</title>
-        <link rel="stylesheet" href="/static/css/layui.css"/>
-        <style></style>
-    </head>
-    <body class="pear-container">
 
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <table id="data-table" lay-filter="data-table"></table>
-            </div>
+<head>
+    <meta charset="utf-8">
+    <title>数据管理</title>
+    <link rel="stylesheet" href="/static/css/layui.css" />
+    <link rel="stylesheet" href="/static/css/common.css" />
+</head>
+
+<body class="container">
+
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="data-table" lay-filter="data-table"></table>
         </div>
+    </div>
 
-        <script type="text/html" id="data-toolbar">
+    <script type="text/html" id="data-toolbar">
             <button class="layui-btn layui-btn-primary layui-btn-md" lay-event="add">
                 <i class="layui-icon layui-icon-add-1"></i>
 		        新增
 		    </button>
         </script>
 
-        <script id="op-bar" type="text/html">
+    <script id="op-bar" type="text/html">
             <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete">
                 <i class="layui-icon layui-icon-delete"></i>
             </button>
         </script>
 
-        
-        <script src="/static/js/layui.js"></script>
-        <script>
-            layui.use([
-                'table',
-                'form',
-                'dropdown',
-                'jquery',
-                'common',
-                'soulTable'
-            ], function () {
+
+    <script src="/static/js/layui.js"></script>
+    <script>
+        layui.config({
+            base: "/static/js/"
+        }).extend({
+            api: 'api',
+            soulTable: 'soulTable/soulTable.slim',
+
+        }).use([
+            'api', 'soulTable'
+        ],
+            function () {
                 let table = layui.table,
                     form = layui.form,
                     $ = layui.jquery,
+                    api = layui.api,
                     dropdown = layui.dropdown,
                     common = layui.common,
                     soulTable = layui.soulTable,
-                    req = _req();
+                    req = api.req();
 
                 let MODULE_PATH = "./";
                 //console.log(req)
                 api.get('db/fieldList?table=' + req.table, cols => {
                     //console.log(cols);
                     let colsFields = $.extend(true, [], cols[0]);
-                    cols[0].unshift({type : 'radio',title:'copy'})
-                    cols[0].push({title: '操作', toolbar: '#op-bar', align: 'center', width: 100, fixed: 'right'});
+                    cols[0].unshift({ type: 'radio', title: 'copy' })
+                    cols[0].push({ title: '操作', toolbar: '#op-bar', align: 'center', width: 100, fixed: 'right' });
                     table.render({
                         elem: '#data-table',
-                        url: apiUrl + 'db/listData?table=' + req.table,
-                        headers: getHeader(),
+                        url: api.apiUrl + 'db/listData?table=' + req.table,
+                        headers: api.getHeader(),
                         parseData: function (res) {
                             console.log(res)
                             return {
@@ -130,16 +135,16 @@
                             window.add();
                         }
                     });
-                    table.on('row(data-table)', function(obj) {
+                    table.on('row(data-table)', function (obj) {
                         //console.log(obj)
                         let arr = [], data = obj.data;
-                        for(let p in data) {
+                        for (let p in data) {
                             arr.push(p + '=' + data[p]);
                         }
                         console.log(arr)
                         window.add(arr.join('&'))
                     });
-                    window.add = function(data = '') {
+                    window.add = function (data = '') {
                         //console.log(cols)
                         //console.log(colsFields)
                         let fields = [];
@@ -199,6 +204,7 @@
                 })
 
             })
-        </script>
-    </body>
+    </script>
+</body>
+
 </html>

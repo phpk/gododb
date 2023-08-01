@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>数据库字段管理</title>
-		<link rel="stylesheet" href="/static/css/layui.css"/>
-	</head>
-	<body class="pear-container">
 
-		<div class="layui-card">
-			<div class="layui-card-body">
-				<table id="db-table" lay-filter="db-table"></table>
-			</div>
+<head>
+	<meta charset="utf-8">
+	<title>数据库字段管理</title>
+	<link rel="stylesheet" href="/static/css/layui.css" />
+	<link rel="stylesheet" href="/static/css/soulTable.css" />
+</head>
+
+<body class="container">
+
+	<div class="layui-card">
+		<div class="layui-card-body">
+			<table id="db-table" lay-filter="db-table"></table>
 		</div>
-        
-        <script type="text/html" id="db-toolbar">
+	</div>
+
+	<script type="text/html" id="db-toolbar">
 			<button class="layui-btn layui-btn-primary layui-btn-md" lay-event="add">
 				<i class="layui-icon layui-icon-add-1"></i>
 		        新增
@@ -24,50 +27,58 @@
               </button>
 
 		</script>
-        <script id="type-bar" type="text/html">
+	<script id="type-bar" type="text/html">
 			<span lay-event="ftype">{{d.type}}</span>
 		</script>
-		<script id="op-bar" type="text/html">
+	<script id="op-bar" type="text/html">
 			<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>
 		</script>
-        <script type="text/html" id="null-bar">
+	<script type="text/html" id="null-bar">
 			<input type="checkbox" name="isnull" value="{{d.name}}" lay-skin='switch' lay-filter="isnull" {{ d.isnull == 'YES' ? 'checked' : '' }} />
 		</script>
-        <script type="text/html" id="auto-bar">
+	<script type="text/html" id="auto-bar">
 			<input type="checkbox" name="auto" value="{{d.name}}" lay-skin='switch' lay-filter="auto" {{ d.extra == 'auto_increment' ? 'checked' : '' }} />
 		</script>
-		
-		<script src="/static/js/layui.js"></script>
-		<script>
-			layui.use([
-				'table', 'form', 'dropdown', 'jquery', 'common','soulTable'
-			], function () {
+
+	<script src="/static/js/layui.js"></script>
+	<script>
+		layui.config({
+			base: "/static/js/"
+		}).extend({
+			api: 'api',
+			soulTable: 'soulTable/soulTable.slim',
+
+		}).use([
+			'api', 'soulTable'
+		],
+			function () {
 				let table = layui.table;
 				let form = layui.form;
 				let $ = layui.jquery;
+				let api = layui.api;
 				let dropdown = layui.dropdown;
 				let common = layui.common;
 				let soulTable = layui.soulTable;
-                let req = _req();
+				let req = api.req();
 
 				let MODULE_PATH = "./";
-                layui.soulTable.config({
-                    drag: true, // 默认关闭表格的列拖拽，可单独开启
-                    rowDrag : true,
-                    contextmenu: true,
-                    overflow: { // 默认所有表格都超出
-                        type: 'tips',
-                        header: true, // 表头支持 overflow
-                        total: true // 合计行支持 overflow
-                    }
-                })
+				layui.soulTable.config({
+					drag: true, // 默认关闭表格的列拖拽，可单独开启
+					rowDrag: true,
+					contextmenu: true,
+					overflow: { // 默认所有表格都超出
+						type: 'tips',
+						header: true, // 表头支持 overflow
+						total: true // 合计行支持 overflow
+					}
+				})
 				let cols = [
 					[
-                        {
-                            type : 'checkbox',
-                            field : 'name',
-                            title:'设置索引'
-                        },
+						{
+							type: 'checkbox',
+							field: 'name',
+							title: '设置索引'
+						},
 						{
 							title: '字段名',
 							field: 'name',
@@ -82,74 +93,74 @@
 							edit: 'text',
 							width: 150,
 							align: 'left',
-                            //fixed: 'left'
-						},{
+							//fixed: 'left'
+						}, {
 							title: '类型',
 							field: 'type',
-                            width: 150,
+							width: 150,
 							align: 'center',
 							//toolbar: '#type-bar',//todo 做弹窗限制
-                            edit: 'text',
+							edit: 'text',
 						}, {
 							title: '默认值',
 							field: 'default',
 							align: 'center',
-                            edit: 'text',
+							edit: 'text',
 							width: 70,
 							align: 'left'
 						}, {
 							title: '为空',
 							field: 'isnull',
 							align: 'center',
-                            width: 78,
-                            toolbar: '#null-bar',
+							width: 78,
+							toolbar: '#null-bar',
 						}, {
 							title: 'Auto',
 							field: 'extra',
 							align: 'center',
-                            width: 78,
-                            toolbar: '#auto-bar',
-						},{
+							width: 78,
+							toolbar: '#auto-bar',
+						}, {
 							title: 'key',
 							field: 'key',
 							align: 'center',
-                            /*contextmenu: {
-                                body: [
-                                    {
-                                        name: '设为普通索引',
-                                        click: function(obj) {
-                                            //obj.del() 
-                                        }
-                                    },
-                                    {
-                                        name: '设为唯一索引',
-                                        click: function(obj) {
-                                            //obj.del() 
-                                        }
-                                    },
-                                    {
-                                        name: '设为主键',
-                                        click: function(obj) {
-                                            //obj.del() 
-                                        }
-                                    },
-                                ]
-                            }*/
+							/*contextmenu: {
+								body: [
+									{
+										name: '设为普通索引',
+										click: function(obj) {
+											//obj.del() 
+										}
+									},
+									{
+										name: '设为唯一索引',
+										click: function(obj) {
+											//obj.del() 
+										}
+									},
+									{
+										name: '设为主键',
+										click: function(obj) {
+											//obj.del() 
+										}
+									},
+								]
+							}*/
 						},
-                        {
+						{
 							title: '操作',
 							toolbar: '#op-bar',
 							align: 'center',
 							width: 70,
-                            fixed: 'right'
+							fixed: 'right'
 						}
 					]
 				]
 
 				table.render({
 					elem: '#db-table',
-					url: apiUrl + 'db/fields?table=' + req.table,
-					headers: getHeader(),
+					url: api.apiUrl + 'db/fields?table=' + req.table,
+					headers: api.getHeader(),
 					parseData: function (res) {
 						console.log(res)
 						return {
@@ -159,10 +170,10 @@
 							"data": res.data.list //解析数据列表
 						};
 					},
-                    done: function () {
+					done: function () {
 						soulTable.render(this)
 					},
-                    
+
 					autoSort: true,
 					page: false,
 					cols: cols,
@@ -179,128 +190,128 @@
 						'print',
 						'exports'
 					],
-                    rowDrag: {
-                        done: function(obj) {
-                            window.drawRow(obj)
-                        }
-                    }
+					rowDrag: {
+						done: function (obj) {
+							window.drawRow(obj)
+						}
+					}
 				});
-                table.on('tool(db-table)', function(obj) {
-                    console.log(obj)
+				table.on('tool(db-table)', function (obj) {
+					console.log(obj)
 					if (obj.event === 'ftype') {
 						//window.remove(obj);
-                        //console.log(obj)
-                        window.setType(obj);
-                        //设置类型
+						//console.log(obj)
+						window.setType(obj);
+						//设置类型
 					} else if (obj.event === 'remove') {
 						window.remove(obj);
-					} 
+					}
 				});
-				
-                form.on('switch(isnull)', function(data) {
+
+				form.on('switch(isnull)', function (data) {
 					let v = 1;
 					if (data.elem.checked) v = 0;
 					let postData = {
-						table:req.table,
-					 	name : data.value,
-					 	status : v,
-						type : 'isnull'
+						table: req.table,
+						name: data.value,
+						status: v,
+						type: 'isnull'
 					};
 					//console.log(postData)
 					api.post('db/setStatus', postData, res => {
 						layer.msg('更新成功', {
-								icon: 1,
-								time: 1000
+							icon: 1,
+							time: 1000
 						});
 					}, err => {
 						$(data.elem).prop('checked', false);
 						form.render('checkbox');
 					})
-					
-                })
-                form.on('switch(auto)', function(data) {
-                    let v = 1;
+
+				})
+				form.on('switch(auto)', function (data) {
+					let v = 1;
 					if (data.elem.checked) v = 0;
 					let postData = {
-						table:req.table,
-					 	name : data.value,
-					 	status : v,
-						type : 'auto'
+						table: req.table,
+						name: data.value,
+						status: v,
+						type: 'auto'
 					};
 					//console.log(postData)
 					api.post('db/setStatus', postData, res => {
 						layer.msg('更新成功', {
-								icon: 1,
-								time: 1000
+							icon: 1,
+							time: 1000
 						});
 					}, err => {
 						$(data.elem).prop('checked', false);
 						form.render('checkbox');
 					})
-                })
-                
-                table.on('toolbar(db-table)', function(obj) {
-                    console.log(obj)
+				})
+
+				table.on('toolbar(db-table)', function (obj) {
+					console.log(obj)
 					if (obj.event === 'add') {
 						window.add();
 					} else if (obj.event === 'refresh') {
 						window.refresh();
-					} else if(obj.event === 'sindex') {
-                        dropdown.render({
-                            elem: this, show: true, //这个很关键，代表其它事件中触发即显示
-                            data: [
-                                {
-                                    title: '查看索引',
-                                    id: 'viewKey'
-                                }, {
-                                    title: '设置唯一索引',
-                                    id: 'setUnikeyBtree'
-                                }, {
-                                    title: '设置普通索引',
-                                    id: 'setKeyBtree'
-                                }, {
-                                    title: '设为主键',
-                                    id: 'setKey'
-                                }
-                            ],
-                            click: function (data, othis) {
-                                var elem = $(this.elem); 
-                                window.opKey(data);
-                            }
-                        });
-                    }
+					} else if (obj.event === 'sindex') {
+						dropdown.render({
+							elem: this, show: true, //这个很关键，代表其它事件中触发即显示
+							data: [
+								{
+									title: '查看索引',
+									id: 'viewKey'
+								}, {
+									title: '设置唯一索引',
+									id: 'setUnikeyBtree'
+								}, {
+									title: '设置普通索引',
+									id: 'setKeyBtree'
+								}, {
+									title: '设为主键',
+									id: 'setKey'
+								}
+							],
+							click: function (data, othis) {
+								var elem = $(this.elem);
+								window.opKey(data);
+							}
+						});
+					}
 				});
-               
-                //编辑名字
-                table.on('edit(db-table)', function (obj) {
+
+				//编辑名字
+				table.on('edit(db-table)', function (obj) {
 					let old = $(this)
 						.prev()
 						.text();
 					//console.log(old)
 					let name = obj.data.name;
-					if(obj.field == 'name') name = old;
+					if (obj.field == 'name') name = old;
 					let update = {
 						table: req.table,
 						name,
-                        field : obj.field,
+						field: obj.field,
 						value: obj.value,
 						old
 					}
 					api.post('db/changeFieldName', update, res => {
 						//console.log(res)
-                        layer.msg('更新成功', {
-								icon: 1,
-								time: 1000
+						layer.msg('更新成功', {
+							icon: 1,
+							time: 1000
 						});
 					}, err => {
 						//console.log(err)
 
 					})
 				});
-				window.opKey = function(data) {
+				window.opKey = function (data) {
 					//console.log(data)
 					let id = data.id;
-					if(id == 'viewKey') {
+					if (id == 'viewKey') {
 						layer.open({
 							type: 2,
 							title: '查看索引',
@@ -310,14 +321,14 @@
 							anim: 1,
 							content: MODULE_PATH + 'keys.html?table=' + req.table
 						});
-					}else{
+					} else {
 						let list = table.checkStatus('db-table').data;
 						//console.log(list)
-						if(id == 'setKey' && list.length != 1) {
+						if (id == 'setKey' && list.length != 1) {
 							layer.msg('设置主键只能选择一个字段');
 							return false;
 						}
-						if(list.length < 1){
+						if (list.length < 1) {
 							layer.msg('至少选择一行');
 							return false;
 						}
@@ -325,10 +336,10 @@
 							return "`" + d.name + "`";
 						});
 						api.post('db/setKey', {
-							names : names.join(','),
-							table : req.table,
-							type : id
-						},res => {
+							names: names.join(','),
+							table: req.table,
+							type: id
+						}, res => {
 							layer.msg('设置成功', {
 								icon: 1,
 								time: 1000
@@ -339,8 +350,8 @@
 
 					}
 				}
-                //添加字段
-                window.add = function() {
+				//添加字段
+				window.add = function () {
 					layer.open({
 						type: 2,
 						title: '新增字段',
@@ -351,20 +362,20 @@
 						content: MODULE_PATH + 'add.html?table=' + req.table
 					});
 				}
-                //设置类型 todo://
-                window.setType = function(obj) {
+				//设置类型 todo://
+				window.setType = function (obj) {
 
-                }
-                //删除字段
-                window.remove = function(obj) {
-                    layer.confirm('确定要删除该字段吗？', {
+				}
+				//删除字段
+				window.remove = function (obj) {
+					layer.confirm('确定要删除该字段吗？', {
 						icon: 3,
 						title: '提示'
 					}, function (index) {
 						layer.close(index);
 						api.post('db/delField', {
 							table: req.table,
-                            field : obj.data.name
+							field: obj.data.name
 						}, res => {
 							layer.msg('删除成功', {
 								icon: 1,
@@ -377,36 +388,37 @@
 							//layer.msg('删除失败',{icon:2,time:1000});
 						})
 					});
-                }
-                //拖拽行，排序
-                window.drawRow = function(obj) {
-                    console.log(obj)
-                    let postData = {
-                        table : req.table,
-                        //field : obj.row.name,
-                        row : JSON.stringify(obj.row)
-                    }
-                    if(obj.newIndex > 0) {
-                        postData.t = 'AFTER';
-                        let nid = obj.newIndex - 1;
-                        postData.sortField = obj.cache[nid].name;
-                    }else {
-                        postData.t = 'BEFORE';
-                        postData.sortField = obj.cache[1].name;
-                    }
-                    console.log(postData)
-                    api.post('db/sortField',postData, res => {
-                        console.log(res)
-                        layer.msg('更新成功', {
-								icon: 1,
-								time: 1000
+				}
+				//拖拽行，排序
+				window.drawRow = function (obj) {
+					console.log(obj)
+					let postData = {
+						table: req.table,
+						//field : obj.row.name,
+						row: JSON.stringify(obj.row)
+					}
+					if (obj.newIndex > 0) {
+						postData.t = 'AFTER';
+						let nid = obj.newIndex - 1;
+						postData.sortField = obj.cache[nid].name;
+					} else {
+						postData.t = 'BEFORE';
+						postData.sortField = obj.cache[1].name;
+					}
+					console.log(postData)
+					api.post('db/sortField', postData, res => {
+						console.log(res)
+						layer.msg('更新成功', {
+							icon: 1,
+							time: 1000
 						});
-                    })
-                }
+					})
+				}
 				window.refresh = function (param) {
 					table.reload('db-table');
 				}
 			})
-		</script>
-	</body>
+	</script>
+</body>
+
 </html>
