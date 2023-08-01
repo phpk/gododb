@@ -35,7 +35,8 @@ pm2 start pm2.json
 # pm2 reload pm2.json //reload
 ```
 
-## 支持sqlite，库有点大，耐心等待下载
+## 支持sqlite
+- 库有点大，耐心等待下载
 ```
 pnpm i think-model-sqlite -s
 ```
