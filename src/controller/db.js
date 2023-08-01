@@ -21,6 +21,7 @@ module.exports = class extends Base {
      */
     async updateAction() {
         await this.model('db').createList();
+        await this.adminOpLog('更新缓存');
         return this.success();
     }
     /**
@@ -30,6 +31,7 @@ module.exports = class extends Base {
      */
     async backupAction() {
         await this.model('db').backup();
+        await this.adminOpLog('备份数据');
         return this.success();
     }
     /**
@@ -49,6 +51,7 @@ module.exports = class extends Base {
     async rebackAction() {
         let file = this.post('file');
         await this.model('db').reback(file);
+        await this.adminOpLog('还原数据');
         return this.success()
     }
     /**
@@ -59,6 +62,7 @@ module.exports = class extends Base {
     async delbackAction() {
         let file = this.post('file');
         await this.model('db').delBackupFile(file);
+        await this.adminOpLog('删除还原数据');
         return this.success()
     }
     /**
@@ -92,7 +96,7 @@ module.exports = class extends Base {
             else if (data.field == 'Comment') {
                 await this.model('db').editTableComment(data.table, data.value);
             }
-
+            await this.adminOpLog('编辑表');
             return this.success()
         } catch (error) {
             return this.fail(error.message)
@@ -108,6 +112,7 @@ module.exports = class extends Base {
         let table = this.post('table');
         try {
             await this.model('db').drop(table);
+            await this.adminOpLog('删除表');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -122,6 +127,7 @@ module.exports = class extends Base {
         let table = this.post('table');
         try {
             await this.model('db').repair(table);
+            await this.adminOpLog('修复表');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -136,6 +142,7 @@ module.exports = class extends Base {
         let table = this.post('table');
         try {
             await this.model('db').optimize(table);
+            await this.adminOpLog('优化表');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -149,6 +156,7 @@ module.exports = class extends Base {
         let table = this.post('table');
         try {
             await this.model('db').opcopy(table);
+            await this.adminOpLog('复制表');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -177,6 +185,7 @@ module.exports = class extends Base {
         let code = this.post('code');
         try {
             let rt = await this.model('db').sql(code);
+            await this.adminOpLog('执行sql');
             return this.success(rt)
         } catch (e) {
             return this.fail(e.message)
@@ -191,6 +200,7 @@ module.exports = class extends Base {
         let table = this.post('table');
         try {
             await this.model('db').clear(table);
+            await this.adminOpLog('清空表');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -288,6 +298,7 @@ module.exports = class extends Base {
             if (!wh) return this.fail('该表无主键');
             let sql = "update `" + post.table + "` set `"+post.field+"` = '"+post.value+"' where " + wh;
             await this.model('db').sql(sql);
+            await this.adminOpLog('编辑数据');
             return this.success()
         } catch (e) {
             console.log(e)
@@ -312,8 +323,9 @@ module.exports = class extends Base {
                 vals.push("'" + post[p] + "'");
             }
             let sql = "INSERT INTO `" + table + "` (" + fields.join(',') + ") VALUES (" + vals.join(',') + ")";
-            console.log(sql)
+            //console.log(sql)
             await this.model('db').sql(sql);
+            await this.adminOpLog('添加数据');
             return this.success()
         } catch (e) {
             console.log(e)
@@ -334,6 +346,7 @@ module.exports = class extends Base {
             if (!wh) return this.fail('该表无主键');
             let sql = "delete from `" + post.table + "` where " + wh;
             await this.model('db').sql(sql);
+            await this.adminOpLog('删除数据');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -348,6 +361,7 @@ module.exports = class extends Base {
         let { table, field } = this.post();
         try {
             await this.model('db').delField(table, field);
+            await this.adminOpLog('删除字段');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -361,6 +375,7 @@ module.exports = class extends Base {
         let { table, row, t, sortField } = this.post();
         try {
             await this.model('db').sortField(table, JSON.parse(row), t, sortField);
+            await this.adminOpLog('字段排序');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -390,6 +405,7 @@ module.exports = class extends Base {
             else if (field == 'type') {
                 await this.model('db').changeFieldType(table, row, value);
             }
+            await this.adminOpLog('更改字段名字');
             return this.success()
         } catch (e) {
             console.log(e.message)
@@ -418,6 +434,7 @@ module.exports = class extends Base {
                 }
                 await this.model('db').changeFieldAuto(table, row, status);
             }
+            await this.adminOpLog('更改字段状态');
             return this.success()
         } catch (e) {
             console.log(e.message)
@@ -439,6 +456,7 @@ module.exports = class extends Base {
                 return this.fail('表中存在相同的字段')
             }
             await this.model('db').addField(table, post);
+            await this.adminOpLog('添加字段');
             return this.success()
         } catch (e) {
             console.log(e.message)
@@ -462,6 +480,7 @@ module.exports = class extends Base {
         let { table, name } = this.post();
         try {
             await this.model('db').delKey(table, name);
+            await this.adminOpLog('删除主键');
             return this.success()
         } catch (e) {
             console.log(e)
@@ -476,6 +495,7 @@ module.exports = class extends Base {
         let {table, names, type} = this.post()
         try {
             await this.model('db').setKey(table, names, type);
+            await this.adminOpLog('设置主键');
             return this.success()
         } catch (e) {
             console.log(e)
@@ -490,6 +510,7 @@ module.exports = class extends Base {
         let data = this.post();
         try {
             await this.model('db').createTable(data);
+            await this.adminOpLog('创建表');
             return this.success();
         } catch (e) {
             console.log(e)
@@ -510,6 +531,7 @@ module.exports = class extends Base {
                     await this.model('db').drop(e);
                 })
             }
+            await this.adminOpLog('批量删除表');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -538,6 +560,7 @@ module.exports = class extends Base {
             let can = await this.model('db').testConf(data);
             if (can) {
                 await this.model('database').addData(data);
+                await this.adminOpLog('添加数据库');
                 process.send('think-cluster-reload-workers');
                 return this.success()
             } else {
@@ -558,6 +581,7 @@ module.exports = class extends Base {
             if (can) {
                 let rt = await this.model('database').upData(data);
                 if (!rt) this.fail('数据不存在');
+                await this.adminOpLog('编辑数据库');
                 process.send('think-cluster-reload-workers');
                 return this.success()
             } else {
@@ -597,6 +621,7 @@ module.exports = class extends Base {
         try {
             let rt = await this.model('database').del(id);
             if (!rt) return this.fail('数据库不存在');
+            await this.adminOpLog('删除数据库配置');
             process.send('think-cluster-reload-workers');
             return this.success();
         } catch (e) {
@@ -610,6 +635,7 @@ module.exports = class extends Base {
         let id = this.post('id');
         try {
             await this.model('database').changeData(id);
+            await this.adminOpLog('更换数据库');
             process.send('think-cluster-reload-workers');
             return this.success()
         } catch (e) {
@@ -630,6 +656,7 @@ module.exports = class extends Base {
         let data = this.post();
         try {
             await this.model('database').addSafe(data.names);
+            await this.adminOpLog('添加保护');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
@@ -642,15 +669,21 @@ module.exports = class extends Base {
         let data = this.post();
         try {
             await this.model('database').safeDel(data.id);
+            await this.adminOpLog('删除保护');
             return this.success()
         } catch (e) {
             return this.fail(e.message)
         }
     }
+    /**
+     * 创建数据库
+     * @returns 
+     */
     async creatDatabaseAction() {
         let name = this.post('name');
         try {
             await this.model('db').createDatabase(name);
+            await this.adminOpLog('创建数据库');
             process.send('think-cluster-reload-workers');
             return this.success();
         } catch (e) {
