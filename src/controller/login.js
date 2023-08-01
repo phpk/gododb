@@ -1,6 +1,14 @@
 
+/**
+ *
+ * @name:  godoDb
+ * @author: ruitao
+ * @link: http://gdoa.top
+ * @license: LGPL
+ * @version: v1.0.0
+ */
 const jwt = require('jsonwebtoken');
-//const ADMINDIR = 'server';
+
 /**
  * @class 
  * @apiDefine login 用户登录

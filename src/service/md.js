@@ -1,3 +1,11 @@
+/**
+ *
+ * @name:  godoDb
+ * @author: ruitao
+ * @link: http://gdoa.top
+ * @license: LGPL
+ * @version: v1.0.0
+ */
 const json2md = require("json2md");
 const path = require('path');
 const fs = require('fs');

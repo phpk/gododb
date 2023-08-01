@@ -1,3 +1,11 @@
+/**
+ *
+ * @name:  godoDb
+ * @author: ruitao
+ * @link: http://gdoa.top
+ * @license: LGPL
+ * @version: v1.0.0
+ */
 layui.define(function (exports) {
   //const apiUrl = 'http://localhost:8210/';
   const apiUrl = '/';

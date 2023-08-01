@@ -1,3 +1,11 @@
+/**
+ *
+ * @name:  godoDb
+ * @author: ruitao
+ * @link: http://gdoa.top
+ * @license: LGPL
+ * @version: v1.0.0
+ */
 const svgCaptcha = require("svg-captcha");
 module.exports = class extends think.Service {
     randomString(len = 16) {

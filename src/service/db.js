@@ -1,3 +1,11 @@
+/**
+ *
+ * @name:  godoDb
+ * @author: ruitao
+ * @link: http://gdoa.top
+ * @license: LGPL
+ * @version: v1.0.0
+ */
 const fs = require('fs');
 const path = require('path');
 const confpath = path.join(think.ROOT_PATH, 'data/config.js');
