@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>sql查询</title>
-    <link rel="stylesheet" href="../../component/ui/css/ui.css" />
+    <link rel="stylesheet" href="/static/css/layui.css" />
     <!-- Latest compiled and minified CSS -->
     <script src="../../component/ui/table/jquery.min.js"></script>
     <script src="../../component/ui/table/bootstrap.min.js"></script>
@@ -26,15 +26,15 @@
                 <textarea name="code" placeholder="请输入SQL语句" id="code" class="layui-textarea"></textarea>
             </div>
             <div class="layui-form-item layui-inline">
-                <button type="button" class="pear-btn pear-btn-md pear-btn-primary" id="run">
+                <button type="button" class="layui-btn layui-btn-md layui-btn-primary" id="run">
                     <i class="layui-icon layui-icon-search"></i>
                     查询
                 </button>
-                <button type="button" class="pear-btn pear-btn-md pear-btn-success" id="butitySql">
+                <button type="button" class="layui-btn layui-btn-md layui-btn-success" id="butitySql">
                     <i class="layui-icon layui-icon-light"></i>
                     美化
                 </button>
-                <button type="button" class="pear-btn pear-btn-md" id="reset">
+                <button type="button" class="layui-btn layui-btn-md" id="reset">
                     <i class="layui-icon layui-icon-refresh"></i>
                     重置
                 </button>
@@ -51,7 +51,7 @@
 
     <script src="../../config/config.js"></script>
     <script src="../../component/layui/layui.js"></script>
-    <script src="../../component/ui/ui.js"></script>
+    <script src="/static/js/layui.js"></script>
     <script src="../../component/ui/sql.js"></script>
     <script>
         layui.use([

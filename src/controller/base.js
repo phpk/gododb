@@ -30,8 +30,10 @@ module.exports = class extends Util {
       url = this.ctx.pluginName + '/' + url;
     }
     //console.log(url)
-    let perms = await this.cache('perms_' + this.adminId);
-    if (!perms.includes(url)) {
+    console.log(this.adminId)
+    let authData = await this.cache('perms_' + this.adminId);
+    console.log(authData)
+    if (!authData.perms.includes(url)) {
       this.status = 400;
       this.ctx.body = {
         code: 400,

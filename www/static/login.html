@@ -19,8 +19,8 @@
 			<div class="title">godoDb</div>
 		</div>
 		<div class="layui-form-item">
-			<input placeholder="用户名" value="admin" name="username" id="username" lay-verify="required" lay-reqtext="请填写用户名"
-				lay-affix="clear" hover class="layui-input" />
+			<input placeholder="用户名" value="admin" name="username" id="username" lay-verify="required"
+				lay-reqtext="请填写用户名" lay-affix="clear" hover class="layui-input" />
 		</div>
 		<div class="layui-form-item">
 			<input placeholder="密码" type="password" value="admin" name="password" id="password" lay-verify="required"
@@ -42,8 +42,8 @@
 	</form>
 	<div class="layui-footer" style="width: 100%;padding-top:200px;text-align: center;">
 		<!-- 底部固定区域 -->
-		  Copyright &copy; 2023 <a href="http://gdoa.top/" target="_blank">GodoOA</a> LGPL Licensed          
-	  </div>
+		Copyright &copy; 2023 <a href="http://gdoa.top/" target="_blank">GodoOA</a> LGPL Licensed
+	</div>
 	<script src="/static/js/layui.js"></script>
 	<script>
 		layui.extend({
@@ -57,7 +57,12 @@
 			let api = layui.api;
 			//console.log($)
 			let changeImg = () => {
-				$('#captchaImg').attr('src',api.apiUrl + 'login/captcha?t='+ Math.random());
+				api.get('login/captcha?t=' + Math.random(), res => {
+					//console.log(res)
+					const img = `data:image/svg+xml;base64,${window.btoa(res.svg)}`;
+					$('#captchaImg').attr('src', img);
+				})
+				//$('#captchaImg').attr('src',api.apiUrl + 'login/captcha?t='+ Math.random());
 			}
 			changeImg();
 			$('#captchaImg').click(() => {
@@ -78,18 +83,15 @@
 					icon: 16,
 					shade: 0.01
 				});
-				$.post(api.apiUrl + 'login/loginIn', field, res => {
-					if(res.code == 0) {
-						layer.msg('登录成功', { icon: 1 })
-						layer.close(loadIndex);
-						console.log(res)
-						api.setToken(res)
-						//location.href = './index.html'
-					}else{
-						layer.msg(res.message, {icon:2})
-						changeImg();
-					}
-					
+				api.post('login/loginIn', field, res => {
+					layer.msg('登录成功', { icon: 1 })
+					layer.close(loadIndex);
+					//console.log(res)
+					api.setToken(res.token);
+					api.setMenu(res.menus);
+					location.href = './index.html';
+				}, err => {
+					changeImg();
 				})
 			})
 

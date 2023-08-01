@@ -16,13 +16,27 @@
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
             <!-- 头部区域（可配合layui 已有的水平导航） -->
-            <ul class="layui-nav">
+            <ul class="layui-nav" id="menuarea" lay-filter="filter-nav">
                 <!-- 移动端显示 -->
-                <li class="layui-nav-item layui-this"><a href="javascript:;">数据库</a></li>
-                <li class="layui-nav-item"><a href="javascript:;">菜单</a></li>
-                <li class="layui-nav-item"><a href="javascript:;">角色</a></li>
-                <li class="layui-nav-item"><a href="javascript:;">用户</a></li>
+                
             </ul>
+            <script id="menutpl" type="text/html">
+                <li class="layui-nav-item layui-this" >
+                    <a href="javascript:;" url="./res/index/welcome.html">首页</a>
+                </li>
+                {{#  layui.each(d, function(index, item){ }}
+                <li class="layui-nav-item">
+                    <a href="javascript:;"{{#  if(item.href){ }} url="{{= item.href }}"{{#  } }}>{{= item.title }}</a>
+                    {{#  if(item.children.length > 0){ }}
+                    <dl class="layui-nav-child">
+                        {{#  layui.each(item.children, function(ckey, citem){ }}
+                        <dd><a href="javascript:;"{{#  if(citem.href){ }} url="{{= citem.href }}"{{#  } }}>{{= citem.title }}</a></dd>
+                        {{#  }); }}
+                    </dl>
+                    {{#  } }}
+                </li>
+                {{#  }); }}
+            </script>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon layui-icon-set"
@@ -40,7 +54,7 @@
         <div class="layui-body" style="width: 100%;left:0;">
             <!-- 内容主体区域 -->
             <iframe style="width:100%;height:100%;" scrolling="auto" frameborder="0" id="appframe"
-                        src="./res/list.html"></iframe>
+                        src="./res/index/welcome.html"></iframe>
         </div>
         <div class="layui-footer" style="width: 100%;left:0;text-align: center;">
             <!-- 底部固定区域 -->
@@ -62,19 +76,43 @@
         window.onload = function () {
             setIframeHeight(document.getElementById('appframe'));
         };
+        function setIframeUrl(url) {
+            document.getElementById('appframe').src = url;
+        }
         layui.extend({
 				api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
-		});
-        layui.use(['element', 'layer', 'util', 'api'], function () {
+		}).use(['api'], function () {
             let element = layui.element,
             layer = layui.layer,
+            laytpl = layui.laytpl,
             util = layui.util,
             $ = layui.$,
             api = layui.api;
+            let menuData = api.getMenu();
+            // 渲染并输出结果
+            //console.log(menuData)
+            laytpl($("#menutpl").html()).render(menuData, function(str){
+              $('#menuarea').html(str)
+            });
+            element.render('nav', 'filter-nav');
+            $('#menuarea').on("click", "a", e=>{
+                //console.log(e)
+                let url = $(e.target).attr('url');
+                //console.log(url)
+                if(url){
+                    $('#appframe').attr("src", url)
+                }
+                
+            })
+
             $("#loginOut").click(e => {
-                api.get('login/loginOut', res => {
-                    location.href = '/static/login.html'
-                })
+                layer.confirm('确认要退出？', {icon: 3}, function(){
+                    api.get('login/loginOut', res => {
+                        api.clearToken();
+                        location.href = '/static/login.html'
+                    })
+                  });
+                
             })
 
         });

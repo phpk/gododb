@@ -1,6 +1,6 @@
 const svgCaptcha = require("svg-captcha");
 module.exports = class extends think.Service {
-    randomStr(len = 16) {
+    randomString(len = 16) {
         let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
             maxPos = $chars.length,
             pwd = '',

@@ -10,15 +10,14 @@ module.exports = class extends think.Controller {
         }
     }
     getClientUUid() {
-        return think.md5(JSON.stringify(this.ctx.header) + this.ctx.ip)
+        //console.log(this.ctx.header)
+        let key = this.ctx.header.uuid + this.ctx.ip;
+        //console.log(key)
+        return think.md5(key)
     }
     async ses(key, val = '') {
         let uuid = this.getClientUUid()
-        //console.log(val)
-        //console.log(uuid + key)
-        if (val === '' || val === undefined) {
-            //console.log(val)
-            //console.log(uuid + key)
+        if (val == '') {
             return await this.cache(uuid + key)
         } else {
             return await this.cache(uuid + key, val)

@@ -10,13 +10,12 @@ module.exports = class extends Util {
     async captchaAction() {
 		let captchaData = await this.service('login').getCaptcha();
         await this.ses('captchaId', captchaData.text);
-		this.header('Content-Type', 'image/svg+xml');
-        this.ctx.body = captchaData.data;
+		//this.header('Content-Type', 'image/svg+xml');
+        //this.ctx.body = captchaData.data;
+        return this.success({svg : captchaData.data});
 	}
     async chkCapcha(code) {
         let captchaId = await this.ses('captchaId');
-        //console.log(captchaId)
-        console.log(code)
         //清空
         if (captchaId != code) {
             return false;
@@ -82,6 +81,8 @@ module.exports = class extends Util {
         await this.ses('salt', md5Salt);
         //设定保活
         await this.ses('statusTime', this.now());
+        //设置权限
+        let authData = await this.model('menu').cacheData(admin)
         //添加登录日志
         delete post.password;
         let logData = {
@@ -97,7 +98,7 @@ module.exports = class extends Util {
         };
         //await this.mg('adminlog').add(logData);
         await this.model('adminlog').add(logData);
-        return this.success(token);
+        return this.success({token, menus : authData.menus});
     }
     async loginOutAction() {
         await this.clearSatus();

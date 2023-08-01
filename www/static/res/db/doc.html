@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>数据库文档</title>
-        <link rel="stylesheet" href="../../component/ui/css/ui.css"/>
+        <link rel="stylesheet" href="/static/css/layui.css"/>
         <style type="text/css">
             html {
                 font-family: sans-serif;
@@ -59,11 +59,11 @@
     </head>
     <body class="pear-container">
         <div class="pear-row" style="text-align:right">
-            <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add" id="downpdf">
+            <button class="layui-btn layui-btn-primary layui-btn-md" lay-event="add" id="downpdf">
                 <i class="layui-icon ayui-icon-download-circle"></i>
                     下载PDF
             </button>
-            <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add" id="downword">
+            <button class="layui-btn layui-btn-primary layui-btn-md" lay-event="add" id="downword">
                 <i class="layui-icon ayui-icon-download-circle"></i>
                     下载WORD
             </button>
@@ -74,9 +74,8 @@
                 <div id="content"></div>
             </div>
         </div>
-        <script src="../../config/config.js"></script>
-        <script src="../../component/layui/layui.js"></script>
-        <script src="../../component/ui/ui.js"></script>
+        
+        <script src="/static/js/layui.js"></script>
         <script src="/static/docs/js/marked.min.js"></script>
         <script src="/static/docs/js/html2pdf.js"></script>
 
