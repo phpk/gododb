@@ -218,4 +218,24 @@ module.exports = class extends Base {
         await this.session('statusTime', null);
         return this.success()
     }
+    async changepwdAction() {
+        let {oldpwd, newpwd} = this.post();
+        let user = await this.model('admin').where({id : this.adminId}).find();
+        if(think.isEmpty(user)){
+            return this.fail("用户不存在")
+        }
+        let pwd = this.service('login').createPassword(oldpwd, user.salt);
+		//console.log(pwd)
+		if (pwd != user.password) {
+			return this.fail('原密码错误');
+		}
+        let password = this.service('login').createPassword(newpwd, user.salt);
+        if(password != pwd) {
+            await this.model('admin').where({id : this.adminId}).update({
+                password
+            })
+        }
+        
+        return this.success()
+    }
 };
