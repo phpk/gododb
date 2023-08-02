@@ -15,6 +15,11 @@ godoDb数据库设计器，是一款mysql数据库管理工具。
 - 精细化的权限控制；
 - 可查询任何操作记录；
 
+## 项目地址
+[gitee](https://gitee.com/ruitao_admin/gododb)
+
+[github](https://github.com/phpk/gododb)
+
 ## 安装
 
 ```
