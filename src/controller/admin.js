@@ -54,7 +54,7 @@ module.exports = class extends Base {
         authList.forEach(e => {
             e.title = e.name
         })
-        return this.success({ authList })
+        return this.success(authList)
     }
     /**
    * @api {post} admin/add 添加管理员
@@ -79,27 +79,14 @@ module.exports = class extends Base {
         if (!think.isEmpty(has)) return this.fail('系统中存在相同的用户名或手机号')
         save.salt = this.service('login').randomString()
         save.password = this.service('login').createPassword(save.password, save.salt);
-        save.add_time = this.now()
-        let rules = save.rules;
-        if (!rules || rules.length < 1) {
+        save.add_time = this.now();
+        save.rules = await this.model('admin_auth').where({id : save.auth_id}).getField("rules", true);
+        if (think.isEmpty(save.rules)) {
             return this.fail('请选择角色')
         }
-        try {
-            let adminId = await this.model('admin').add(save);
-            let addRules = [];
-            rules.split(',').forEach(auth_id => {
-                addRules.push({
-                    admin_id: adminId,
-                    auth_id,
-                    type: 0
-                })
-            })
-            let rt = await this.model('admin_map').addMany(addRules)
-            await this.adminOpLog('添加管理员', ['password']);
-            return this.success(rt)
-        } catch (e) {
-            return this.fail(e.message)
-        }
+        await this.model('admin').add(save);
+        await this.adminOpLog('添加管理员', ['password']);
+        return this.success()
 
     }
     /**
@@ -121,15 +108,14 @@ module.exports = class extends Base {
 
         delete data.password;
         delete data.salt;
-        data.rules = await this.model('admin_map')
-            .where({ admin_id })
-            .getField('auth_id');
-        let authList = await this.model('admin_auth')
-            .select()
-        authList.forEach(e => {
+        data.authList = await this.model('admin_auth').select()
+        data.authList.forEach(e => {
             e.title = e.name
+            if(e.rules == data.rules) {
+                data.auth_id = e.id;
+                data.auth_name = e.name;
+            }
         });
-        data.authList = authList;
         return this.success(data)
     }
     /**
@@ -166,34 +152,15 @@ module.exports = class extends Base {
             .where(`(username = '${save.username}' or mobile = '${save.mobile}') and admin_id != '${admin_id}'`)
             .find()
         if (!think.isEmpty(has)) return this.fail('系统中存在相同的用户名或手机号')
-
-        let rules = save.rules;
-        if (!rules || rules.length < 1) {
+        save.rules = await this.model('admin_auth').where({id : save.auth_id}).getField("rules", true);
+        if (think.isEmpty(save.rules)) {
             return this.fail('请选择角色')
         }
-        try {
-            await this.model('admin')
+        await this.model('admin')
                 .where({ admin_id })
                 .update(save);
-            //先删除
-            await this.model('admin_map')
-                .where({ admin_id })
-                .delete();
-            //再添加
-            let addRules = [];
-            rules.split(',').forEach(auth_id => {
-                addRules.push({
-                    admin_id,
-                    auth_id,
-                    type: 0
-                })
-            })
-            let rt = await this.model('admin_map').addMany(addRules)
-            await this.adminOpLog('编辑管理员', ['password']);
-            return this.success(rt)
-        } catch (e) {
-            return this.fail(e.message)
-        }
+        await this.adminOpLog('编辑管理员', ['password']);
+        return this.success()
 
     }
     /**
@@ -214,7 +181,6 @@ module.exports = class extends Base {
             return this.fail("数据不存在");
         
         await this.model('admin').where({ admin_id }).delete();
-        await this.model('admin_map').where({ admin_id }).delete();
         await this.adminOpLog('删除管理员');
         return this.success()
     }

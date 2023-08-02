@@ -231,7 +231,20 @@ layui.define(function (exports) {
     }
 
   }
-
+  const getTree = (arr) => {
+    let list = [];
+    let treeIds = function (arr) {
+        for (const item of arr) {
+            list.push(item.id);
+            let subs = item.children;
+            if (subs && subs.length > 0) {
+                treeIds(subs, list);
+            }
+        }
+        return list.join(',');	//以逗号拼接返回
+    }
+    return treeIds(arr);
+}
   // 输出模块
   exports('api', { 
     apiUrl, 
@@ -243,5 +256,6 @@ layui.define(function (exports) {
     getHeader, 
     get, 
     post, 
-    req });
+    req,
+    getTree });
 });

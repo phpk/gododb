@@ -48,7 +48,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">所属角色</label>
                 <div class="layui-input-block">
-                   <div id="treearea"></div>
+                    <input name="auth_name" placeholder="选择角色" lay-verify="required" class="layui-input" id="auth-input">
+                    <input type="hidden" name="auth_id" value="0" id="auth_id" >
                 </div>
             </div>
             
@@ -82,7 +83,7 @@
         let form = layui.form
             , layer = layui.layer
 			, $ = layui.$
-			, tree = layui.tree
+			, dropdown = layui.dropdown
             , req = api.req();
         form.verify({
             len : (val, item) => {
@@ -96,13 +97,16 @@
 		api.get('admin/editBefore?id=' + req.id, res => {
             //console.log(res)
             form.val("editform",res);
-			tree.render({
-			     elem: '#treearea'//绑定元素
-					,showCheckbox : true
-					,data: res.authList
-					,id: 'trees' //定义索引
-			});
-            tree.setChecked('trees', res.rules);
+			dropdown.render({
+                elem : "#auth-input",
+                data: res.authList,
+                click: function(obj){
+                    this.elem.val(obj.title);
+                    $("#auth_id").val(obj.id);
+                },
+                style: 'min-width: 235px;'
+
+            })
 		},err => {
             console.log(err)
         });
@@ -111,12 +115,6 @@
         //监听提交
         form.on('submit(user-save)', function (data) {
 			data = data.field;
-			let arr = tree.getChecked('trees');
-			data.rules = getTree(arr);
-            if(data.rules.length < 1){
-                layer.msg("所属角色不能为空");
-                return false;
-            }
             if(data.password.length > 0 && data.password.length < 6) {
                 layer.msg("密码长度不能小于6位");
                 return false;

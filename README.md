@@ -26,6 +26,7 @@ godoDb数据库设计器，是一款mysql数据库管理工具。
 pnpm i
 
 ```
+- 导入data/gododb.sql数据库文件，并修改src/config/adapter.js数据库配置信息
 
 ## 启动服务
 
@@ -39,6 +40,17 @@ npm start
 pm2 start pm2.json
 # pm2 reload pm2.json //reload
 ```
+## 演示图片
+
+![输入图片说明](docs/1.jpg)
+![输入图片说明](docs/2.jpg)
+![输入图片说明](docs/3.jpg)
+![输入图片说明](docs/4.jpg)
+![输入图片说明](docs/5.jpg)
+![输入图片说明](docs/6.jpg)
+![输入图片说明](docs/7.jpg)
+![输入图片说明](docs/8.jpg)
+![输入图片说明](docs/9.jpg)
 
 ## 支持sqlite
 - 库有点大，耐心等待下载

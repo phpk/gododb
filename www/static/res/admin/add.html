@@ -48,7 +48,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">所属角色</label>
                 <div class="layui-input-block">
-                   <div id="treearea"></div>
+                    <input name="auth_name" placeholder="选择角色" lay-verify="required" class="layui-input" id="auth-input">
+                    <input type="hidden" name="auth_id" value="0" id="auth_id" >
                 </div>
             </div>
             
@@ -82,7 +83,7 @@
         let form = layui.form
             , layer = layui.layer
 			, $ = layui.$
-			, tree = layui.tree;
+			, dropdown = layui.dropdown;
         form.verify({
             len : (val, item) => {
                 let min = item.getAttribute("min")
@@ -93,24 +94,23 @@
         })
            //渲染
 		api.get('admin/addBefore', res => {
-			   tree.render({
-			     elem: '#treearea'//绑定元素
-					,showCheckbox : true
-					,data: res.authList
-					,id: 'trees' //定义索引
-				});
+            //console.log(res)
+			dropdown.render({
+                elem : "#auth-input",
+                data: res,
+                click: function(obj){
+                    this.elem.val(obj.title);
+                    $("#auth_id").val(obj.id);
+                },
+                style: 'min-width: 235px;'
+
+            })
 		});
            
         
         //监听提交
         form.on('submit(user-save)', function (data) {
 			data = data.field;
-			let arr = tree.getChecked('trees');
-			data.rules = getTree(arr);
-            if(data.rules.length < 1){
-                layer.msg("所属角色不能为空");
-                return false;
-            }
 			api.post('admin/add', data, res => {
 				//console.log(res)
 				parent.layui.table.reload("user-table");

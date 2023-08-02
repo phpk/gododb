@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "author": "xpbb@qq.com",
   "scripts": {
-    "start": "node development.js",
+    "dev": "node development.js",
+    "start": "node production.js",
     "test": "THINK_UNIT_TEST=1 nyc ava test/ && nyc report --reporter=html",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
     "lint": "eslint src/",

@@ -83,7 +83,7 @@
 			<div class="layui-card">
 				<div class="layui-card-header">操作日志</div>
 				<div class="layui-card-body">
-
+					<table class="layui-hide" id="log-data"></table>
 				</div>
 			</div>
 		</div>
@@ -105,12 +105,75 @@
 
 		</div>
 	</div>
+	<script type="text/html" id="log-createTime">
+		{{layui.util.toDateString(d.addtime*1000, "yyyy-MM-dd HH:mm:ss")}}
+	</script>
 	<script src="/static/js/layui.js"></script>
 	<script>
-		layui.use(function () {
-			let $ = layui.jquery,
-				layer = layui.layer,
-				element = layui.element;
+		layui.extend({
+			api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
+		}).use(['api'],function () {
+			let $ = layui.jquery;
+			let table = layui.table;
+			let layer = layui.layer;
+			let api = layui.api;
+			let cols = [
+				[
+					{
+						title: '操作人',
+						field: 'username',
+						align: 'center',
+						minWidth : 100,
+						fixed : 'left'
+					},
+					{
+						title: '模块',
+						field: 'log',
+						align: 'center',
+						minWidth : 150,
+					},
+					{
+						title: '请求方式',
+						field: 'method',
+						align: 'center',
+						minWidth : 80
+					},
+					{
+						title: '接口',
+						field: 'url',
+						align: 'center',
+						minWidth : 150,
+					},
+					{
+						title: '浏览器',
+						field: 'agent',
+						align: 'center',
+						minWidth : 250,
+					},
+					
+					{
+						title: '操作时间',
+						field: 'addtime',
+						templet: '#log-createTime',
+						align: 'center',
+						minWidth : 180,
+						fixed : 'right'
+					}
+				]
+			]
+			api.get('index/welcome', res => {
+				console.log(res)
+				$('#value1').html(res.dbNum)
+				$('#value2').html(res.userNum)
+				$('#value3').html(res.opNum)
+				$('#value4').html(res.loginNum)
+				table.render({
+					elem: '#log-data',
+					data : res.oplist,
+					cols,
+					page: false
+				})
+			})
 
 		});
 	</script>

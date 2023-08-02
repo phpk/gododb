@@ -164,7 +164,7 @@ module.exports = class extends Util {
         addtime: this.now(),
         type : 'admin_op'
       };
-      await this.mg('adminlog').add(saveData);
+      await this.model('adminlog').add(saveData);
     } catch (error) {
       console.log(error)
     }

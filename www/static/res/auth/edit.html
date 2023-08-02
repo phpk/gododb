@@ -59,14 +59,15 @@
 <script src="/static/js/layui.js"></script>
 <script>
     layui.extend({
-            api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
-    });
-    layui.use(['api'], function () {
+		api: '{/}/static/js/api',
+		treedata : '{/}/static/js/treedata',
+	});
+    layui.use(['api', 'treedata'], function () {
         let api = layui.api;
         let form = layui.form
             , layer = layui.layer
 			, $ = layui.$
-			, tree = layui.tree
+			, tree = layui.treedata
             , req = api.req();
 
            //渲染
@@ -79,8 +80,11 @@
 					,id: 'trees' //定义索引
 				});
                 //console.log(res.rules)
+                
                 if(res.rules.length > 0){
-                    tree.setChecked('trees', res.rules.split(','));
+                    //tree.setChecked('trees', res.rules.split(','));
+                    tree.setDataChecked('trees', res.rules.split(','));
+                    form.render('checkbox')
                 }
 		   });
            
@@ -89,18 +93,7 @@
         form.on('submit(user-save)', function (data) {
 			data = data.field;
 			let arr = tree.getChecked('trees');
-			let list = [];
-			let treeIds = function(arr) {
-				for (const item of arr) {
-					list.push(item.id);
-					let subs = item.children;
-					if (subs && subs.length > 0) {
-						treeIds(subs, list);
-					}
-				}
-				return list.join(',');	//以逗号拼接返回
-			}
-			data.rules = treeIds(arr);
+			data.rules = api.getTree(arr);
             //console.log(data)
 			api.post('auth/edit', data, res => {
 				//console.log(res)

@@ -156,9 +156,6 @@ module.exports = class extends Base {
         if (!await this.hasData('admin_auth', { id }))
             return this.fail("数据不存在");
 
-        if (await this.hasData('admin_map', { auth_id: id }))
-            return this.fail("请先删除角色下的管理员");
-
         let rt = await this.model('admin_auth').where({ id }).delete();
         await this.adminOpLog('删除角色');
         return this.success(rt)

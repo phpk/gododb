@@ -21,16 +21,22 @@
                 
             </ul>
             <script id="menutpl" type="text/html">
-                <li class="layui-nav-item layui-this" >
+                <!--li class="layui-nav-item layui-this" >
                     <a href="javascript:;" id="homehref">首页</a>
-                </li>
+                </li-->
                 {{#  layui.each(d, function(index, item){ }}
-                <li class="layui-nav-item">
-                    <a href="javascript:;"{{#  if(item.href){ }} url="{{= item.href }}"{{#  } }}>{{= item.title }}</a>
-                    {{#  if(item.children.length > 0){ }}
+                <li class="layui-nav-item
+                {{#  if(index < 1){ }}  layui-this{{#  } }}">
+                    <a href="javascript:;"
+                    {{#  if(item.href){ }} url="{{= item.href }}"{{#  } }}
+                    >{{= item.title }}</a>
+                    {{#  if(item.children && item.children.length > 0){ }}
                     <dl class="layui-nav-child">
                         {{#  layui.each(item.children, function(ckey, citem){ }}
-                        <dd><a href="javascript:;"{{#  if(citem.href){ }} url="{{= citem.href }}"{{#  } }}>{{= citem.title }}</a></dd>
+                        <dd><a href="javascript:;"
+                            {{#  if(citem.href){ }} url="{{= citem.href }}"{{#  } }}
+                            >{{= citem.title }}</a>
+                        </dd>
                         {{#  }); }}
                     </dl>
                     {{#  } }}
@@ -38,14 +44,19 @@
                 {{#  }); }}
             </script>
             <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" id="refresh">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-refresh"
+                            style="font-size: 20px; color: #ffffff;"></i></a>
+                </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;" id="changepwd"><i class="layui-icon layui-icon-set"
+                    <a href="javascript:;" id="changepwd"><i class="layui-icon layui-icon-password"
                             style="font-size: 20px; color: #ffffff;"></i></a>
                 </li>
                 <li class="layui-nav-item" id="loginOut">
                     <a href="javascript:;"><i class="layui-icon layui-icon-logout"
                             style="font-size: 20px; color: #ffffff;"></i></a>
                 </li>
+                
 
 
             </ul>
@@ -121,6 +132,14 @@
                 }
             }
             initFrame();
+            $('#refresh').click(e => {
+                let loadIndex = layer.load(2);
+                
+                setTimeout(function(){
+                    initFrame();
+                    layer.close(loadIndex)
+                }, 1000);
+            })
             //console.log(location.hash)
             api.get("auth/isLogin");
 

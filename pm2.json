@@ -2,9 +2,9 @@
   "apps": [{
     "name": "godoDb",
     "script": "production.js",
-    "cwd": "/Users/sujia/www/godoDb/godoDb",
+    "cwd": "/data/godoDb",
     "exec_mode": "fork",
-    "max_memory_restart": "1G",
+    "max_memory_restart": "2G",
     "autorestart": true,
     "node_args": [],
     "args": [],
