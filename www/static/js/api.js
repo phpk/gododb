@@ -1,7 +1,8 @@
 /**
  *
  * @name:  godoDb
- * @author: ruitao
+ * @author: ruitao  
+ * @email: xpbb@qq.com
  * @link: http://gdoa.top
  * @license: LGPL
  * @version: v1.0.0
@@ -102,7 +103,7 @@ layui.define(function (exports) {
       });
       top.location.href = notLoginUrl;
     }
-    else if (xhr.status === 409) {
+    else if (xhr.status === 406) {
       layer.msg('一段时间未操作，超过保活时间！', {
         icon: 2, time: 2000
       });
@@ -155,7 +156,7 @@ layui.define(function (exports) {
       success: (res) => {
         //console.log(res)
         if (res.code === 0) {
-          suc(res.data)
+          suc && suc(res.data)
         } else {
           // layer.msg(res.message, {
           //     icon: 2, time: 2000
@@ -189,7 +190,7 @@ layui.define(function (exports) {
       headers: getHeader(),
       data,
       success: (res) => {
-        //console.log(res)
+        
         if (res.code === 0) {
           suc(res.data)
         } else {
@@ -204,6 +205,7 @@ layui.define(function (exports) {
       },
       error: (xhr) => {
         err && err(xhr);
+        //console.log(xhr)
         errorStatus(xhr)
       }
     });

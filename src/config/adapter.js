@@ -37,7 +37,7 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'godocms',
+    database: 'gododb',
     prefix: 'rt_',
     encoding: 'utf8',
     host: '127.0.0.1',

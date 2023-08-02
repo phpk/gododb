@@ -1,7 +1,8 @@
 /**
  *
  * @name:  godoDb
- * @author: ruitao
+ * @author: ruitao  
+ * @email: xpbb@qq.com
  * @link: http://gdoa.top
  * @license: LGPL
  * @version: v1.0.0
@@ -38,9 +39,9 @@ module.exports = class extends Util {
       url = this.ctx.pluginName + '/' + url;
     }
     //console.log(url)
-    console.log(this.adminId)
+    //console.log(this.adminId)
     let authData = await this.cache('perms_' + this.adminId);
-    console.log(authData)
+    //console.log(authData)
     if (!authData.perms.includes(url)) {
       this.status = 400;
       this.ctx.body = {

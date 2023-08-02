@@ -39,7 +39,7 @@
             </script>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    <a href="javascript:;"><i class="layui-icon layui-icon-set"
+                    <a href="javascript:;" id="changepwd"><i class="layui-icon layui-icon-set"
                             style="font-size: 20px; color: #ffffff;"></i></a>
                 </li>
                 <li class="layui-nav-item" id="loginOut">
@@ -121,7 +121,10 @@
                 }
             }
             initFrame();
-            console.log(location.hash)
+            //console.log(location.hash)
+            api.get("auth/isLogin");
+
+
             $("#loginOut").click(e => {
                 layer.confirm('确认要退出？', {icon: 3}, function(){
                     api.get('login/loginOut', res => {

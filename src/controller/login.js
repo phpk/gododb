@@ -2,7 +2,8 @@
 /**
  *
  * @name:  godoDb
- * @author: ruitao
+ * @author: ruitao  
+ * @email: xpbb@qq.com
  * @link: http://gdoa.top
  * @license: LGPL
  * @version: v1.0.0

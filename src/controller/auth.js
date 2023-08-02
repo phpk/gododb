@@ -1,7 +1,8 @@
 /**
  *
  * @name:  godoDb
- * @author: ruitao
+ * @author: ruitao  
+ * @email: xpbb@qq.com
  * @link: http://gdoa.top
  * @license: LGPL
  * @version: v1.0.0
@@ -104,7 +105,7 @@ module.exports = class extends Base {
             id = post.id;
         if (!await this.hasData('admin_auth', { id }))
             return this.fail("数据不存在");
-        
+
         let rt = await this.model('admin_auth')
             .where({ id })
             .update(post);
@@ -126,10 +127,10 @@ module.exports = class extends Base {
     async enableAction() {
         let post = this.post(),
             id = post.id;
-        
+
         if (!await this.hasData('admin_auth', { id }))
             return this.fail("数据不存在");
-        
+
         let rt = await this.model('admin_auth')
             .where({ id })
             .update({
@@ -154,13 +155,16 @@ module.exports = class extends Base {
             id = post.id;
         if (!await this.hasData('admin_auth', { id }))
             return this.fail("数据不存在");
-        
-        if (await this.hasData('admin_map', { auth_id:  id }))
+
+        if (await this.hasData('admin_map', { auth_id: id }))
             return this.fail("请先删除角色下的管理员");
 
         let rt = await this.model('admin_auth').where({ id }).delete();
         await this.adminOpLog('删除角色');
         return this.success(rt)
+    }
+    isLoginAction() {
+        return this.success()
     }
 
 }

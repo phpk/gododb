@@ -1,7 +1,8 @@
 /**
  *
  * @name:  godoDb
- * @author: ruitao
+ * @author: ruitao  
+ * @email: xpbb@qq.com
  * @link: http://gdoa.top
  * @license: LGPL
  * @version: v1.0.0
@@ -155,7 +156,7 @@ module.exports = class extends Base {
     async addAction() {
         let post = this.post();
         let rt = await this.model('menu').add(post);
-        await this.model('menu').cacheData(this.adminId);
+        await this.model('menu').cacheDataByUid(this.adminId);
         await this.adminOpLog('添加菜单');
         return this.success(rt)
     }
