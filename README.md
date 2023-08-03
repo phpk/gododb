@@ -12,8 +12,8 @@ godoDb数据库设计器，是一款mysql数据库管理工具。
 - 可更改字段名/注释/默认值/排序，可拖拽排序字段，可删除字段；
 - 支持连接/管理多个外部数据库，可通过ssh连接外部数据库，可导入pem文件连接；
 - 支持数据库表保护；
-- 精细化的权限控制；
-- 可查询任何操作记录；
+- 精细化的权限控制，多角色多用户管理；
+- 可查询每个用户的操作记录，方便回查；
 
 ## 项目地址
 [gitee](https://gitee.com/ruitao_admin/gododb)
@@ -40,6 +40,9 @@ npm start
 pm2 start pm2.json
 # pm2 reload pm2.json //reload
 ```
+- 账号：admin
+- 密码：admin 
+
 ## 演示图片
 
 ![输入图片说明](docs/1.jpg)
@@ -61,7 +64,7 @@ pnpm i think-model-sqlite -s
 ```
 const sqlite = require('think-model-sqlite');
 ```
-以及第49行到55行注释
+- 以及第49行到55行注释
 ```
  sqlite: {
     handle: sqlite, // Adapter handle

@@ -32,7 +32,7 @@
     </div>
     <div class="bottom">
         <div class="button-container">
-            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit="" lay-filter="txt-save">
+            <button type="submit" class="layui-btn layui-btn-lg layui-btn-warm" lay-submit="" lay-filter="txt-save">
                 <i class="layui-icon layui-icon-ok"></i>
                 提交
             </button>
@@ -60,9 +60,13 @@
         //监听提交
         form.on('submit(txt-save)', function (data) {
 			data = data.field;
-			api.post(layui, 'admin/changepwd', data, res => {
+            if(data.oldpwd == data.newpwd) {
+                layer.msg("密码一致，请修改新密码！", {icon:2});
+                return false;
+            }
+			api.post('admin/changepwd', data, res => {
                 layer.msg("修改成功", {icon:1})
-				//parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+				parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
 			})
 
             return false;

@@ -140,6 +140,17 @@
                     layer.close(loadIndex)
                 }, 1000);
             })
+            $("#changepwd").click( e => {
+                layer.open({
+                    type: 2,
+                    title: '修改密码',
+                    shade: 0.1,
+                    area: ['50%', '50%'],
+                    anim: 1,
+                    maxmin: true,
+                    content: '/static/res/admin/changepwd.html'
+                });
+            })
             //console.log(location.hash)
             api.get("auth/isLogin");
 

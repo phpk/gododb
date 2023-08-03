@@ -220,7 +220,7 @@ module.exports = class extends Base {
     }
     async changepwdAction() {
         let {oldpwd, newpwd} = this.post();
-        let user = await this.model('admin').where({id : this.adminId}).find();
+        let user = await this.model('admin').where({admin_id : this.adminId}).find();
         if(think.isEmpty(user)){
             return this.fail("用户不存在")
         }
@@ -231,7 +231,7 @@ module.exports = class extends Base {
 		}
         let password = this.service('login').createPassword(newpwd, user.salt);
         if(password != pwd) {
-            await this.model('admin').where({id : this.adminId}).update({
+            await this.model('admin').where({admin_id : this.adminId}).update({
                 password
             })
         }

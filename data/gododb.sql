@@ -11,7 +11,7 @@
  Target Server Version : 50641
  File Encoding         : 65001
 
- Date: 02/08/2023 17:57:44
+ Date: 03/08/2023 10:15:11
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `rt_admin` (
 -- Records of rt_admin
 -- ----------------------------
 BEGIN;
-INSERT INTO `rt_admin` VALUES ('admin', '6b44772738c7a063312c30713445cce6', 1, 'KBxfk4bpXTmbDJ2n', 0, NULL, NULL, 0, 1690968910, 392, 0, '-1');
+INSERT INTO `rt_admin` VALUES ('admin', '6d585e2c9760497cac7b1d7de2af5a4c', 1, '5KhNBSWmzf8zTRmj', 0, NULL, NULL, 0, 1691028880, 395, 0, '-1');
 INSERT INTO `rt_admin` VALUES ('test', '0fc4cb8f312dad842411e616bb5eca33', 7, 'H6pecfi8GS7DRHji', 1690966737, 'test2', '13873150575', 0, 0, 0, 1690967270, '-1');
 COMMIT;
 
@@ -85,7 +85,7 @@ CREATE TABLE `rt_adminlog` (
   `type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '日志类型',
   `leavetime` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理操作日志';
 
 -- ----------------------------
 -- Records of rt_adminlog
@@ -149,6 +149,11 @@ INSERT INTO `rt_adminlog` VALUES (55, 1, '编辑表', '{\"table\":\"rt_ding_user
 INSERT INTO `rt_adminlog` VALUES (56, 1, '编辑表', '{\"table\":\"rt_ding_dept\",\"field\":\"Auto_increment\",\"value\":\"1\",\"old\":\"钉钉部门\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/db/editTable', 'POST', 1690969585, 'admin_op', 0);
 INSERT INTO `rt_adminlog` VALUES (57, 1, '更换数据库', '{\"id\":\"2\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/db/confChange', 'POST', 1690969832, 'admin_op', 0);
 INSERT INTO `rt_adminlog` VALUES (58, 1, '执行sql', '{\"code\":\"select * from rt_adminlog\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/db/runSql', 'POST', 1690969875, 'admin_op', 0);
+INSERT INTO `rt_adminlog` VALUES (59, 1, 'admin用户登录', '{\"username\":\"admin\",\"captcha\":\"29\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/login/loginIn', 'POST', 1691028091, 'admin_login', 0);
+INSERT INTO `rt_adminlog` VALUES (60, 1, '编辑菜单', '{\"title\":\"管理员添加前\",\"route\":\"admin/addBefore\",\"href\":\"\",\"icon\":\"layui-icon layui-icon-at\",\"type\":\"3\",\"order_num\":\"0\",\"id\":\"62\",\"pid\":\"11\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/menu/edit', 'POST', 1691028480, 'admin_op', 0);
+INSERT INTO `rt_adminlog` VALUES (61, 1, '添加菜单', '{\"title\":\"修改密码\",\"route\":\"admin/changepwd\",\"href\":\"admin/changepwd.html\",\"icon\":\"layui-icon layui-icon-component\",\"type\":\"2\",\"order_num\":\"0\",\"pid\":\"11\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/menu/add', 'POST', 1691028532, 'admin_op', 0);
+INSERT INTO `rt_adminlog` VALUES (62, 1, 'admin用户登录', '{\"username\":\"admin\",\"captcha\":\"29\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/login/loginIn', 'POST', 1691028539, 'admin_login', 0);
+INSERT INTO `rt_adminlog` VALUES (63, 1, 'admin用户登录', '{\"username\":\"admin\",\"captcha\":\"56\"}', '::ffff:127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0', '/login/loginIn', 'POST', 1691028880, 'admin_login', 0);
 COMMIT;
 
 -- ----------------------------
@@ -222,7 +227,7 @@ CREATE TABLE `rt_menu` (
   `desktop` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '桌面推荐',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `url` (`route`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=292 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of rt_menu
@@ -251,7 +256,7 @@ INSERT INTO `rt_menu` VALUES (58, '添加查看菜单', 'auth', 'auth/addTree', 
 INSERT INTO `rt_menu` VALUES (59, '添加角色', 'auth', 'auth/add', '', 2, 1, 'layui-icon layui-icon-logout', NULL, 10, 1, 0, 0);
 INSERT INTO `rt_menu` VALUES (60, '角色编辑前', 'auth', 'auth/beforEdit', '', 3, 0, 'layui-icon layui-icon-email', NULL, 10, 1, 0, 0);
 INSERT INTO `rt_menu` VALUES (61, '设置角色可用', 'auth', 'auth/enable', '', 2, 0, 'layui-icon layui-icon-at', NULL, 10, 1, 0, 0);
-INSERT INTO `rt_menu` VALUES (62, '管理员添加前', 'admin', 'admin/addBefore', '', 3, 0, '', NULL, 11, 1, 0, 0);
+INSERT INTO `rt_menu` VALUES (62, '管理员添加前', 'admin', 'admin/addBefore', '', 3, 0, 'layui-icon layui-icon-at', NULL, 11, 1, 0, 0);
 INSERT INTO `rt_menu` VALUES (63, '添加管理员', 'admin', 'admin/add', '', 2, 0, 'layui-icon layui-icon-windows', NULL, 11, 1, 0, 0);
 INSERT INTO `rt_menu` VALUES (64, '管理员编辑前', 'admin', 'admin/editBefore', '', 3, 0, 'layui-icon layui-icon-export', NULL, 11, 1, 0, 0);
 INSERT INTO `rt_menu` VALUES (65, '管理员启用禁用', 'admin', 'admin/enable', '', 2, 0, 'layui-icon layui-icon-slider', NULL, 11, 1, 0, 0);
@@ -298,6 +303,7 @@ INSERT INTO `rt_menu` VALUES (140, '删除保护', NULL, 'db/safeDel', '', 2, 0,
 INSERT INTO `rt_menu` VALUES (141, '添加数据库', NULL, 'db/creatDatabase', '', 2, 0, 'layui-icon layui-icon-align-left', NULL, 35, 1, 0, 0);
 INSERT INTO `rt_menu` VALUES (142, '编辑菜单数据', 'menu', 'menu/editData', '', 3, 20, 'layui-icon layui-icon-add-1', '_self', 9, 2, 0, 0);
 INSERT INTO `rt_menu` VALUES (291, '判断登录', NULL, 'auth/isLogin', '', 3, 0, 'layui-icon layui-icon-username', NULL, 6, 1, 1, 0);
+INSERT INTO `rt_menu` VALUES (292, '修改密码', NULL, 'admin/changepwd', 'admin/changepwd.html', 2, 0, 'layui-icon layui-icon-component', NULL, 11, 1, 0, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
