@@ -21,7 +21,12 @@ godoDb数据库设计器，是一款mysql数据库管理工具。
 [github](https://github.com/phpk/gododb)
 
 ## 安装
+- 如未安装pnpm，需事先安装pnpm
+```
+npm i pnpm -g
 
+```
+- 安装依赖
 ```
 pnpm i
 
