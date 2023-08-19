@@ -75,3 +75,15 @@ const sqlite = require('think-model-sqlite');
   }
 ```
 - 重启程序
+
+
+## 微信群
+![微信群](https://gitee.com/ruitao_admin/gdoa/raw/master/docs/wx.png)
+
+## 开源
+
+- 承诺永久免费开源
+- 允许企业/个人单独使用
+- 如用于商业活动或二次开发后发售，请购买相关版权
+- 不提供私下维护工作，如有bug请 [issures](https://gitee.com/ruitao_admin/gododbs) 提交
+- 请尊重作者的劳动成果
