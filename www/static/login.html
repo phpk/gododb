@@ -3,19 +3,22 @@
 
 <head>
 	<meta charset="utf-8">
-	<link rel="icon" href="/static/favicon.ico" type="image/vnd.microsoft.icon" />
+	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+	<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+
+	<link rel="icon" href="./favicon.ico" type="image/vnd.microsoft.icon" />
 	<title>登陆</title>
 	<!-- 样 式 文 件 -->
-	<link rel="stylesheet" href="/static/css/layui.css" />
-	<link rel="stylesheet" href="/static/css/login.css" />
+	<link rel="stylesheet" href="./css/layui.css" />
+	<link rel="stylesheet" href="./css/login.css" />
 
 </head>
 <!-- 代 码 结 构 -->
 
-<body background="/static/image/background.svg" style="background-size: cover;">
+<body background="./image/background.svg" style="background-size: cover;">
 	<form class="layui-form" action="javascript:void(0);">
 		<div class="layui-form-item">
-			<img class="logo" src="/static/image/logo.png" />
+			<img class="logo" src="./image/logo.png" />
 			<div class="title">godoDb</div>
 		</div>
 		<div class="layui-form-item">
@@ -44,10 +47,10 @@
 		<!-- 底部固定区域 -->
 		Copyright &copy; 2023 <a href="http://gdoa.top/" target="_blank">GodoOA</a> LGPL Licensed
 	</div>
-	<script src="/static/js/layui.js"></script>
+	<script crossorigin src="./js/layui.js"></script>
 	<script>
 		layui.extend({
-			api: '{/}/static/js/api' // 开头特定符 {/} 即代表采用单独路径
+			api: '{/}./js/api' // 开头特定符 {/} 即代表采用单独路径
 		});
 		layui.use(['api'], function () {
 			let $ = layui.$;

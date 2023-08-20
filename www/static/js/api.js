@@ -9,7 +9,7 @@
  */
 layui.define(function (exports) {
   //const apiUrl = 'http://localhost:8210/';
-  const apiUrl = '/';
+  const apiUrl = 'http://localhost:8212/';
   const TOKEN_NAME = 'rttoken';
   //const notLoginUrl = 'http://localhost:8210/static/login.html';
   const notLoginUrl = '/static/login.html';

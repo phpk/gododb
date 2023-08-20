@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const { exec } = require("child_process");
+const path = require('path')
 // 启动Node server
 const startServer = async () => {
     try {
@@ -17,7 +18,14 @@ let win
 const createWindow = () => {
     win = new BrowserWindow({
         width: 800,
-        height: 600
+        height: 600,
+        webPreferences: {
+            // 为了使用node
+            nodeIntegration: true,
+            contextIsolation: false,
+            webSecurity: true,
+            //preload: path.join(__dirname, './preload.js')
+        },
     })
     const tpl = [
         {
@@ -37,13 +45,13 @@ const createWindow = () => {
             ],
         },
     ]
-    win.loadURL('http://localhost:8212/')
+    //win.loadURL('http://localhost:8212/')
+    win.loadFile('www/static/login.html')
     if (process.platform === 'darwin') {
         tpl.unshift({ label: '' })
     }
     const menu = Menu.buildFromTemplate(tpl)
     Menu.setApplicationMenu(menu)
-
     
 }
 // 这段程序将会在 Electron 结束初始化
@@ -56,6 +64,10 @@ app.whenReady().then(async () => {
         // 点击托盘图标时通常会重新创建一个新窗口
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+})
+
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit()
 })
 
 
