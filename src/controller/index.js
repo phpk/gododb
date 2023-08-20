@@ -15,6 +15,7 @@ module.exports = class extends Util {
   }
   indexAction() {
     if(!this.adminId) {
+      
       return this.redirect('/static/login.html')
     }else{
       return this.redirect('/static/index.html')

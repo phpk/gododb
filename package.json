@@ -1,10 +1,12 @@
 {
-  "name": "godoDb",
+  "name": "gododb",
   "description": "power by ruitao",
   "version": "1.0.0",
   "author": "xpbb@qq.com",
+  "main": "main.js",
   "scripts": {
     "dev": "node development.js",
+    "win": "electron .",
     "start": "node production.js",
     "test": "THINK_UNIT_TEST=1 nyc ava test/ && nyc report --reporter=html",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
@@ -34,6 +36,7 @@
     "ava": "^0.18.0",
     "babel-cli": "^6.24.1",
     "babel-preset-think-node": "^1.0.0",
+    "electron": "^26.0.0",
     "eslint": "^4.2.0",
     "eslint-config-think": "^1.0.0",
     "node-notifier": "^5.0.2",

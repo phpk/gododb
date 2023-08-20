@@ -60,6 +60,14 @@ pm2 start pm2.json
 ![输入图片说明](docs/8.jpg)
 ![输入图片说明](docs/9.jpg)
 
+## pnpm慢的问题
+
+- 如无需安装电脑版，则删除package.json中的
+```
+"electron": "^26.0.0",
+
+```
+
 ## 支持sqlite
 - 库有点大，耐心等待下载
 ```
