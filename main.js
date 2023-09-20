@@ -45,8 +45,8 @@ const createWindow = () => {
             ],
         },
     ]
-    //win.loadURL('http://localhost:8212/')
-    win.loadFile('www/static/login.html')
+    win.loadURL('http://localhost:8212/static/login.html')
+    //win.loadFile('www/static/login.html')
     if (process.platform === 'darwin') {
         tpl.unshift({ label: '' })
     }
