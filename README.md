@@ -67,7 +67,9 @@ pm2 start pm2.json
 
 
 
-
+## 关联项目
+- [godoos](https://gitee.com/ruitao_admin/godoos)
+- [godooa](https://gitee.com/ruitao_admin/gdoa)
 
 
 ## 微信群
